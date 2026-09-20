@@ -1,0 +1,253 @@
+/* ==========================================================================
+   Общ слой за модалните прозорци + прозорецът за записване на час.
+   Рендерират се в <body> през портал, затова тук няма грижа за z-index
+   спрямо секциите на Elementor.
+   ========================================================================== */
+
+.anima-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 3vw, 32px);
+  box-sizing: border-box;
+}
+.anima-modal *,
+.anima-modal *::before,
+.anima-modal *::after { box-sizing: border-box; }
+
+.anima-modal__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 23, 17, 0.62);
+  backdrop-filter: blur(4px);
+  animation: anima-fade 0.2s var(--anima-ease);
+  cursor: pointer;
+}
+
+.anima-modal__panel {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: min(88svh, 860px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(22px, 4vw, 34px);
+  border-radius: 20px;
+  background: var(--anima-cream);
+  box-shadow: 0 30px 80px rgba(20, 22, 14, 0.4);
+  animation: anima-pop 0.26s var(--anima-ease);
+}
+.anima-modal__panel:focus { outline: none; }
+
+.anima-modal .anima-modal__close {
+  position: absolute;
+  padding: 0;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(51, 38, 28, 0.08);
+  color: var(--anima-ink);
+  cursor: pointer;
+  transition: background-color 0.2s var(--anima-ease), color 0.2s var(--anima-ease);
+}
+.anima-modal .anima-modal__close:hover {
+  background: var(--anima-wood);
+  color: #fff;
+}
+.anima-modal .anima-modal__close svg { width: 20px; height: 20px; flex: 0 0 auto; }
+
+@keyframes anima-fade {
+  from { opacity: 0; }
+}
+@keyframes anima-pop {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .anima-modal__scrim,
+  .anima-modal__panel { animation: none; }
+}
+
+/* ==========================================================================
+   Запазване на час
+   ========================================================================== */
+
+.anima-book__head { padding-right: 48px; }
+.anima-book__head h2 {
+  margin: 0;
+  font: 400 clamp(24px, 3.4vw, 31px) / 1.18 'Ovo', Georgia, serif;
+  color: var(--anima-ink);
+}
+.anima-book__lead {
+  margin: 8px 0 0;
+  color: var(--anima-muted);
+  font: 400 15px/1.55 'Manrope', system-ui, sans-serif;
+}
+
+.anima-book__choices {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.anima-modal .anima-book__card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 18px;
+  border: 1.5px solid rgba(51, 38, 28, 0.14);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--anima-ink);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s var(--anima-ease), transform 0.2s var(--anima-ease),
+    box-shadow 0.2s var(--anima-ease);
+}
+/* `background` и `border` се изписват и тук нарочно: темата има
+   `.elementor-kit-5 button:hover`, което ги задава. Нашият селектор го бие по
+   специфичност, но само за свойствата, които сам обявява, иначе картата
+   почерняваше, а надписът оставаше тъмен и не се четеше. */
+.anima-modal .anima-book__card:hover,
+.anima-modal .anima-book__card:focus-visible {
+  border: 1.5px solid var(--anima-wood);
+  background: #fff;
+  color: var(--anima-ink);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(51, 38, 28, 0.12);
+}
+
+.anima-modal .anima-book__card--primary {
+  border-color: transparent;
+  background: var(--anima-orange-cta);
+  color: #fff;
+}
+.anima-modal .anima-book__card--primary:hover,
+.anima-modal .anima-book__card--primary:focus-visible {
+  border: 1.5px solid transparent;
+  background: var(--anima-orange-600);
+  color: #fff;
+}
+
+/* Докато `contacts.bookingUrl` е празен: бутонът си е на мястото, но се вижда,
+   че още не работи. Попълни адреса и това състояние просто изчезва. */
+.anima-modal .anima-book__card--primary.is-waiting,
+.anima-modal .anima-book__card--primary.is-waiting:is(:hover, :focus-visible) {
+  background: var(--anima-orange-cta);
+  border: 1.5px solid transparent;
+  color: #fff;
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+.anima-book__icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(51, 38, 28, 0.07);
+  color: var(--anima-wood);
+}
+.anima-book__card--primary .anima-book__icon {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+.anima-modal .anima-book__icon svg { width: 22px; height: 22px; flex: 0 0 auto; }
+
+.anima-book__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.anima-book__body strong { font: 600 16.5px/1.3 'Manrope', system-ui, sans-serif; }
+.anima-book__body small {
+  color: inherit;
+  opacity: 0.72;
+  font: 400 13.5px/1.45 'Manrope', system-ui, sans-serif;
+}
+.anima-book__num { font: 700 19px/1.25 'Manrope', system-ui, sans-serif; }
+
+.anima-book__alt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
+  color: var(--anima-muted);
+  font: 400 14px/1.5 'Manrope', system-ui, sans-serif;
+}
+.anima-modal .anima-book__alt a {
+  color: var(--anima-wood-600);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.anima-modal .anima-book__alt a:hover { color: var(--anima-orange-600); }
+
+.anima-book__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(51, 38, 28, 0.1);
+  color: var(--anima-muted);
+  font: 400 13.5px/1.4 'Manrope', system-ui, sans-serif;
+}
+.anima-book__foot span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.anima-modal .anima-book__foot svg { width: 17px; height: 17px; color: var(--anima-wood); }
+
+@media (max-width: 560px) {
+  .anima-modal:not(.anima-lightbox) { padding: 0; place-items: end stretch; }
+  /* На телефон прозорецът идва отдолу, по-близо до палеца. */
+  .anima-modal:not(.anima-lightbox) .anima-modal__panel {
+    width: 100%;
+    max-height: 92svh;
+    border-radius: 22px 22px 0 0;
+    padding-bottom: calc(22px + env(safe-area-inset-bottom));
+    animation: anima-sheet 0.3s var(--anima-ease);
+  }
+}
+
+@keyframes anima-sheet {
+  from { transform: translateY(100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .anima-modal__panel { animation: none; }
+}
+
+/* --- лайтбоксът не е чекмедже: остава центриран и на телефон --- */
+.anima-modal.anima-lightbox { place-items: center; }
+
+/* Затварянето стои в ъгъла на екрана, а не върху снимката. */
+.anima-modal.anima-lightbox .anima-modal__close {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+.anima-modal.anima-lightbox .anima-modal__close:hover {
+  background: var(--anima-wood);
+  color: #fff;
+}

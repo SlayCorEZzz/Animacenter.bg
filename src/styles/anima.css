@@ -1,0 +1,823 @@
+/* ==========================================================================
+   ANIMA: марков слой върху темата Flexora.
+   Зареден последен, за да пребие Elementor. Нищо тук не пипа оригиналните
+   CSS файлове: само преопределя променливи и добавя новите компоненти.
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------
+     Палитрата идва от логото, но по тъмната ос е изтеглена към топло дърво,
+     а не към маслинено. Зеленото от буквите (#686336) седи сиво и студено
+     върху екран и се биеше с охрата на фигурата; орехът държи същия
+     оттенък (~28°) като охрата, затова двата цвята вървят заедно.
+     Охрата от фигурата (#c27536) остава такава, каквато е в логото.
+     ------------------------------------------------------------------ */
+  --anima-wood: #5b4432; /* основен тъмен цвят (бяло върху него: 9.1:1) */
+  --anima-wood-600: #6b5039; /* връзки и заглавия върху светло (6.7:1) */
+  --anima-wood-550: #8a6642; /* по-мек тон, още четим върху кремаво (4.7:1) */
+  --anima-wood-100: #efe6da; /* фон на светлите бутони на темата */
+
+  /* Охрата е акцент, не основен цвят, само за призива за действие.
+     Плътните бутони ползват по-тъмния тон: бяло върху #c27536 дава едва
+     3.6:1, а върху #a8641f дава 4.7:1, т.е. надписът се чете. */
+  --anima-orange: #c27536; /* марковата охра за рамки, точки, дребни акценти */
+  --anima-orange-cta: #a8641f; /* плътни бутони с бял текст */
+  --anima-orange-600: #7d4715; /* hover, и за плътни бутони, и за връзки върху пясъчно */
+
+  --anima-cream: #f7f3ea;
+  --anima-sand: #ebe4d5;
+  --anima-sand-deep: #e3dac8; /* футърът, с един тон по-плътно от секциите */
+  --anima-ink: #2b2620;
+  --anima-muted: #6f6255; /* топло сиво-кафяво (старото #6e6b58 биеше на зелено) */
+  --anima-line: rgba(51, 38, 28, 0.14);
+
+  --anima-header-h: 96px;
+  --anima-radius: 18px;
+  --anima-shadow: 0 18px 50px rgba(51, 38, 28, 0.14);
+  --anima-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --anima-logo-h: 74px;
+
+  /* отстъп отстрани, един и същ за темата и за новите секции */
+  --anima-gutter: clamp(16px, 4vw, 40px);
+}
+
+@media (max-width: 1024px) {
+  :root { --anima-header-h: 88px; --anima-logo-h: 64px; }
+}
+@media (max-width: 480px) {
+  :root { --anima-header-h: 78px; --anima-gutter: 16px; --anima-logo-h: 56px; }
+}
+/* телефон в легнало положение: лентата яде твърде много от екрана */
+@media (max-height: 460px) and (orientation: landscape) {
+  :root { --anima-header-h: 64px; --anima-logo-h: 46px; }
+}
+
+/* --- пребоядисване на глобалните цветове на темата ---
+   Elementor ги задава на `body.elementor-kit-5`, затова тук е нужна поне
+   толкова специфичност, иначе старото тюркоазено остава. */
+body.elementor-kit-5,
+body {
+  --e-global-color-vamtam_accent_1: var(--anima-wood);
+  --e-global-color-vamtam_accent_2: var(--anima-wood-100);
+  --e-global-color-vamtam_accent_3: var(--anima-cream);
+  /* accent_4 са дребните етикети на темата: топъл орех, не охра, за да не
+     се повтаря акцентният цвят навсякъде. */
+  --e-global-color-vamtam_accent_4: var(--anima-wood-550);
+  --e-global-color-vamtam_accent_6: #2b2620e6;
+  --e-global-color-vamtam_sticky_header_bg_color: rgba(91, 68, 50, 0.82);
+
+  --vamtam-body-link-regular: #2b2620e6;
+  --vamtam-body-link-visited: #2b2620e6;
+  --vamtam-body-link-hover: var(--anima-wood-600);
+  --vamtam-body-link-active: var(--anima-wood-600);
+  --vamtam-btn-bg-color: var(--anima-wood-100);
+  --vamtam-btn-hover-bg-color: var(--anima-wood);
+  --vamtam-btn-text-color: #2b2620e6;
+  --vamtam-btn-hover-text-color: #fff;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* нищо да не изнася страницата настрани на телефон */
+html, body { overflow-x: clip; }
+
+/* Маркупът на Elementor скрива анимираните елементи с `elementor-invisible` и
+   чака рънтаймът да ги покаже. Появата е поета от src/legacy/revealAnimations.js,
+   който слага `.anima-reveal` на <html>. Без този клас нищо не се скрива -
+   по-добре без анимация, отколкото с невидим текст. */
+html:not(.anima-reveal) .elementor-invisible { visibility: visible; }
+
+/* котвите да не влизат под фиксирания header */
+[id] { scroll-margin-top: calc(var(--anima-header-h) + 12px); }
+
+img, video { max-width: 100%; }
+
+/* ==========================================================================
+   Нулиране в рамките на нашите компоненти
+   Темата стилизира всички <button> и <svg> глобално; тук ги връщаме към
+   неутрално, за да не се появява тюркоазен фон и смачкани икони.
+   ========================================================================== */
+
+/* Темата слага фон на всеки <button> през `.elementor-kit-5 button` (0,1,1)
+   и на :hover през (0,2,1). Затова и нулирането, и собствените ни стилове
+   по-долу са писани с поне толкова специфичност.
+
+   Списъкът в :not() изключва бутоните, които имат собствено оформление,
+   иначе остават без фон. Важно е заради вариантите с :is(:hover, …): те са
+   със специфичност (0,3,1) и биха победили дори правило с три класа, което
+   на практика гасеше фона на активния таб в ценоразписа.
+
+   `.anima-modal` е в списъка, защото прозорците се рендерират през портал в
+   <body>, тоест извън всички останали обвивки тук, затова правилата на темата ги
+   намираха необлечени. */
+.anima-header button:not(.anima-btn, .anima-tabs__btn, .anima-lightbox__nav, .anima-modal__close, .anima-callbar__btn, .anima-book__card),
+.anima-drawer button:not(.anima-btn, .anima-tabs__btn, .anima-lightbox__nav, .anima-modal__close, .anima-callbar__btn, .anima-book__card),
+.anima-section button:not(.anima-btn, .anima-tabs__btn, .anima-lightbox__nav, .anima-modal__close, .anima-callbar__btn, .anima-book__card),
+.anima-footer button:not(.anima-btn, .anima-tabs__btn, .anima-lightbox__nav, .anima-modal__close, .anima-callbar__btn, .anima-book__card),
+.anima-modal button:not(.anima-btn, .anima-tabs__btn, .anima-lightbox__nav, .anima-modal__close, .anima-callbar__btn, .anima-book__card),
+.anima-header button:not(.anima-btn, .anima-tabs__btn, .anima-lightbox__nav, .anima-modal__close, .anima-callbar__btn, .anima-book__card):is(:hover, :focus, :active),
+.anima-drawer button:not(.anima-btn, .anima-tabs__btn, .anima-lightbox__nav, .anima-modal__close, .anima-callbar__btn, .anima-book__card):is(:hover, :focus, :active),
+.anima-section button:not(.anima-btn, .anima-tabs__btn, .anima-lightbox__nav, .anima-modal__close, .anima-callbar__btn, .anima-book__card):is(:hover, :focus, :active),
+.anima-footer button:not(.anima-btn, .anima-tabs__btn, .anima-lightbox__nav, .anima-modal__close, .anima-callbar__btn, .anima-book__card):is(:hover, :focus, :active),
+.anima-modal button:not(.anima-btn, .anima-tabs__btn, .anima-lightbox__nav, .anima-modal__close, .anima-callbar__btn, .anima-book__card):is(:hover, :focus, :active) {
+  appearance: none;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.anima-header svg,
+.anima-drawer svg,
+.anima-callbar svg,
+.anima-section svg,
+.anima-footer svg {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+}
+/* Иконките в модалите също са flex елементи. Без flex: 0 0 auto се
+   свиват до нула и стрелките изчезват. */
+.anima-modal svg { flex: 0 0 auto; }
+.anima-lightbox__nav svg,
+.anima-lightbox__close svg {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+}
+.anima-drawer__nav svg { width: 18px; height: 18px; }
+
+/* ==========================================================================
+   Бутони
+   ========================================================================== */
+
+.anima-btn.anima-btn {
+  --btn-bg: var(--anima-wood);
+  --btn-fg: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 26px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font: 600 15px/1.2 'Manrope', system-ui, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.25s var(--anima-ease), transform 0.25s var(--anima-ease),
+    box-shadow 0.25s var(--anima-ease), color 0.25s var(--anima-ease);
+}
+
+.anima-btn.anima-btn:hover,
+.anima-btn.anima-btn:focus-visible {
+  color: var(--btn-fg);
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(51, 38, 28, 0.18);
+}
+
+.anima-btn.anima-btn--accent { --btn-bg: var(--anima-orange-cta); }
+.anima-btn.anima-btn--accent:hover,
+.anima-btn.anima-btn--accent:focus-visible { --btn-bg: var(--anima-orange-600); }
+
+.anima-btn.anima-btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--anima-wood);
+  border: 1.5px solid currentColor;
+}
+.anima-btn.anima-btn--ghost:hover,
+.anima-btn.anima-btn--ghost:focus-visible {
+  --btn-bg: var(--anima-wood);
+  --btn-fg: #fff;
+}
+
+.anima-btn.anima-btn--block { width: 100%; }
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 3px solid var(--anima-orange);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.anima-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 1000;
+  height: var(--anima-header-h);
+  color: #fff;
+  background: transparent;
+  transition: background-color 0.3s var(--anima-ease), box-shadow 0.3s var(--anima-ease),
+    color 0.3s var(--anima-ease);
+}
+
+/* лек градиент, за да се чете логото върху светла снимка */
+.anima-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(30, 23, 17, 0.55), rgba(30, 23, 17, 0));
+  opacity: 1;
+  transition: opacity 0.3s var(--anima-ease);
+  pointer-events: none;
+}
+
+.anima-header.is-solid {
+  background: rgba(247, 243, 234, 0.94);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(51, 38, 28, 0.08), 0 10px 30px rgba(51, 38, 28, 0.07);
+  color: var(--anima-ink);
+}
+.anima-header.is-solid::before { opacity: 0; }
+
+.anima-header__inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 1280px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 40px);
+}
+
+.anima-header__logo {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  /* Логото е и връзка към началото, затова целта остава удобна за пръст дори
+     когато самата картинка се смали (телефон в легнало положение). */
+  min-height: 44px;
+  line-height: 0;
+}
+/* Логото е оригиналното SVG, едно <img>, а светлият вариант върху хероя се
+   получава с филтър. По-рано тук стояха две снимки една върху друга и при
+   превключването се получаваше трепване. */
+.anima-header__logo img {
+  display: block;
+  width: auto;
+  height: var(--anima-logo-h, 74px);
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s var(--anima-ease);
+}
+.anima-header.is-solid .anima-header__logo img { filter: none; }
+
+.anima-header__nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 30px);
+  margin-inline: auto;
+}
+.anima-header__nav a {
+  position: relative;
+  color: inherit;
+  font: 600 15px/1 'Manrope', system-ui, sans-serif;
+  text-decoration: none;
+  padding: 10px 2px;
+  white-space: nowrap;
+}
+.anima-header__nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 2px;
+  background: var(--anima-wood-600);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--anima-ease);
+}
+.anima-header__nav a:hover,
+.anima-header__nav a:focus-visible { color: inherit; text-decoration: none; }
+.anima-header__nav a:hover::after,
+.anima-header__nav a:focus-visible::after { transform: scaleX(1); }
+
+.anima-header__actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.anima-header__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  font: 600 15px/1 'Manrope', system-ui, sans-serif;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.anima-header__phone:hover { color: var(--anima-wood-600); text-decoration: none; }
+
+.anima-header__cta { min-height: 44px; padding: 0 22px; }
+
+.anima-header .anima-header__icon-btn,
+.anima-drawer .anima-header__icon-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 0.25s var(--anima-ease);
+  -webkit-tap-highlight-color: transparent;
+}
+.anima-header.is-solid .anima-header__icon-btn { background: rgba(51, 38, 28, 0.07); }
+.anima-header .anima-header__icon-btn:hover,
+.anima-drawer .anima-header__icon-btn:hover {
+  background: var(--anima-wood);
+  color: #fff;
+}
+
+/* --- планшет и телефон --- */
+@media (max-width: 1024px) {
+  /* CTA-то е .anima-btn, чието правило е (0,2,0), затова скриването трябва да е
+     поне толкова специфично, иначе бутонът остава видим на телефон. */
+  .anima-header .anima-header__nav,
+  .anima-header .anima-header__phone,
+  .anima-header .anima-header__cta.anima-btn { display: none; }
+  .anima-header .anima-header__icon-btn { display: inline-flex; }
+  .anima-header__actions { margin-left: auto; }
+}
+
+@media (min-width: 1025px) {
+  .anima-header .anima-header__icon-btn { display: none; }
+}
+
+/* ==========================================================================
+   Мобилно чекмедже
+   ========================================================================== */
+
+.anima-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+}
+.anima-drawer[hidden] { display: none; }
+
+.anima-drawer__scrim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: rgba(30, 23, 17, 0.55);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  transition: opacity 0.3s var(--anima-ease);
+  cursor: default;
+}
+.anima-drawer.is-open .anima-drawer__scrim { opacity: 1; }
+
+.anima-drawer__panel {
+  position: absolute;
+  inset: 0 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: min(420px, 100%);
+  padding: 0 clamp(20px, 6vw, 32px) max(20px, env(safe-area-inset-bottom));
+  background: var(--anima-cream);
+  box-shadow: var(--anima-shadow);
+  transform: translateX(100%);
+  transition: transform 0.36s var(--anima-ease);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.anima-drawer.is-open .anima-drawer__panel { transform: translateX(0); }
+
+.anima-drawer__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--anima-header-h);
+  margin-bottom: 8px;
+}
+.anima-drawer__logo { width: auto; height: 66px; }
+.anima-drawer .anima-drawer__head .anima-header__icon-btn {
+  display: inline-flex;
+  background: rgba(51, 38, 28, 0.07);
+  color: var(--anima-ink);
+}
+
+.anima-drawer__nav {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0 22px;
+}
+.anima-drawer__nav a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(51, 38, 28, 0.1);
+  color: var(--anima-ink);
+  font: 600 22px/1.2 'Bricolage Grotesque', 'Manrope', system-ui, sans-serif;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateX(14px);
+}
+.anima-drawer.is-open .anima-drawer__nav a {
+  animation: anima-drawer-in 0.34s var(--anima-ease) forwards;
+  animation-delay: calc(90ms + var(--i) * 45ms);
+}
+.anima-drawer__nav a:hover,
+.anima-drawer__nav a:focus-visible { color: var(--anima-wood-600); text-decoration: none; }
+.anima-drawer__nav svg { flex: 0 0 auto; color: var(--anima-wood-550); }
+
+@keyframes anima-drawer-in {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.anima-drawer__foot { margin-top: auto; padding-top: 8px; }
+.anima-drawer__meta {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.anima-drawer__meta li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font: 400 15px/1.5 'Manrope', system-ui, sans-serif;
+  color: var(--anima-muted);
+}
+.anima-drawer__meta svg { flex: 0 0 auto; margin-top: 2px; color: var(--anima-wood); }
+.anima-drawer__meta a { color: inherit; text-decoration: none; }
+.anima-drawer__meta a:hover { color: var(--anima-wood-600); }
+.anima-drawer__hours {
+  margin: 14px 0 0;
+  font: 600 14px/1.5 'Manrope', system-ui, sans-serif;
+  color: var(--anima-wood);
+}
+
+/* ==========================================================================
+   Залепена лента за обаждане (само телефон)
+   ========================================================================== */
+
+/* Дискретен бутон за записване: плаващ, не лента през целия екран.
+   Появява се чак след хероя и се скрива, докато се чете надолу. */
+.anima-callbar {
+  display: none;
+  position: fixed;
+  z-index: 900;
+  right: 14px;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  gap: 8px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(247, 243, 234, 0.92);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 28px rgba(51, 38, 28, 0.22);
+  opacity: 0;
+  transform: translateY(18px) scale(0.96);
+  transition: opacity 0.28s var(--anima-ease), transform 0.28s var(--anima-ease);
+  pointer-events: none;
+}
+.anima-callbar.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.anima-callbar .anima-callbar__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: var(--anima-orange-cta);
+  color: #fff;
+  font: 600 15px/1 'Manrope', system-ui, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+}
+.anima-callbar .anima-callbar__map {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(91, 68, 50, 0.1);
+  color: var(--anima-wood);
+  text-decoration: none;
+}
+.anima-callbar__map:hover { background: var(--anima-wood); color: #fff; }
+
+@media (max-width: 1024px) {
+  .anima-callbar { display: flex; }
+}
+
+/* ==========================================================================
+   Поправки върху секциите на Elementor
+   ========================================================================== */
+
+/* Оригиналният header беше в потока на страницата; нашият е fixed, затова
+   отрицателният горен отстъп на хероя вече не е нужен. Видео фонът и всички
+   снимки на темплейта са оставени такива, каквито бяха. */
+.elementor-17 .elementor-element.elementor-element-cde987c {
+  --margin-top: 0px;
+}
+
+/* Бутоните на темата в марковите цветове. */
+.elementor-17 .elementor-button,
+.elementor-widget-button .elementor-button {
+  border-radius: 999px;
+}
+
+/* ==========================================================================
+   Мобилни поправки по темплейта
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* Хероят да не е по-висок от екрана, защото заглавието се губеше под сгъвката. */
+  .elementor-17 .elementor-element.elementor-element-cde987c {
+    --min-height: min(88svh, 720px);
+    --padding-top: 96px;
+  }
+
+  /* По-спокойна типографска стълба на телефон. */
+  .elementor-17 h1,
+  .elementor-17 h2 { line-height: 1.14; }
+
+  /* Дълги думи да не изнасят картите настрани. */
+  .elementor-17 .elementor-heading-title,
+  .elementor-17 p { overflow-wrap: break-word; }
+
+}
+
+/* Бутоните на темата запазват оригиналното си оформление, цветовете им идват
+   от преопределените глобални променливи по-горе. (Опит да им се наложи общ
+   фон тук чупеше бутоните, които имат собствено правило за елемента.) */
+
+/* --- Header на телефон ----------------------------------------------------- */
+@media (max-width: 1024px) {
+  /* иконата трябва да се чете и върху светла снимка */
+  .anima-header:not(.is-solid) .anima-header__icon-btn {
+    background: rgba(30, 23, 17, 0.42);
+    color: #fff;
+  }
+}
+
+.anima-drawer__social {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+.anima-drawer__social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(91, 68, 50, 0.1);
+  color: var(--anima-wood);
+  transition: background-color 0.22s var(--anima-ease), color 0.22s var(--anima-ease);
+}
+.anima-drawer__social a:hover { background: var(--anima-wood); color: #fff; }
+
+/* ==========================================================================
+   Мобилна четимост и цели за пръст
+   ========================================================================== */
+
+@media (max-width: 1024px), (pointer: coarse) {
+  /* Микро-етикетите на темата ("Кои сме ние", "Защо ANIMA?", …) са 10px,
+     а на екран в ръка това е под границата на четимото. */
+  body.elementor-kit-5,
+  body {
+    --e-global-typography-a6a3c1c-font-size: 12px;
+  }
+
+  /* Бутоните на темата също, включително на таблет, не само на телефон. */
+  .elementor-17 .elementor-button { min-height: 48px; }
+
+  /* Всяка връзка, която е самостоятелна цел, да е висока поне колкото пръст. */
+  .anima-contact-list a,
+  .anima-drawer__meta a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  /* Колоните във футъра са тесни и думите къси, затова връзката заема цялата ширина,
+     за да е достатъчно голяма за пръст и по хоризонтала. */
+  .anima-footer__nav a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .anima-contact-list div,
+  .anima-drawer__meta li { gap: 0; }
+  .anima-contact-list li { align-items: center; }
+
+  /* Текстът с локацията в хероя е и връзка към контактите. */
+  .elementor-17 .elementor-element-661e226 .elementor-heading-title a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+@media (min-width: 1025px) and (pointer: fine) {
+  /* и на десктоп линковете в менюто да имат по-щедра зона за клик */
+  .anima-header__nav a { padding: 14px 4px; }
+}
+
+/* Много тесни екрани (320px): по-малко въздух, по-малки заглавия. */
+@media (max-width: 360px) {
+  .anima-section__title { font-size: 27px; }
+  .anima-btn { padding: 0 18px; font-size: 14.5px; }
+  .anima-callbar__btn { font-size: 14px; gap: 6px; }
+  .anima-drawer__nav a { font-size: 20px; padding: 14px 0; }
+}
+
+/* Телефон в легнало положение: хероят не бива да заема цял екран. */
+@media (max-height: 460px) and (orientation: landscape) {
+  .elementor-17 .elementor-element.elementor-element-cde987c {
+    --min-height: 420px;
+    --padding-top: 80px;
+  }
+  .anima-drawer__panel { padding-bottom: 16px; }
+  .anima-drawer__nav a { padding: 11px 0; font-size: 19px; }
+  .anima-drawer__head { height: 60px; }
+}
+
+/* ==========================================================================
+   Цветове при hover, надделяване над темата
+   Flexora задава `.elementor-kit-5 a:hover { color: accent_1 }`. Псевдокласът
+   се брои като клас, така че това правило е със специфичност (0,2,1) и бие
+   всяко наше `.клас:hover` (0,2,0), затова надписите по бутоните изчезваха.
+   Тук същите цветове се обявяват повторно с удвоен клас, което дава (0,3,0)
+   и повече, без да се посяга към !important.
+   ========================================================================== */
+
+.anima-btn.anima-btn:is(:link, :visited, :hover, :focus, :focus-visible, :active) {
+  color: var(--btn-fg);
+}
+
+.anima-header .anima-header__nav a:is(:hover, :focus-visible) { color: inherit; }
+.anima-header .anima-header__phone:is(:hover, :focus-visible) { color: var(--anima-wood-600); }
+.anima-header.is-solid .anima-header__phone:is(:hover, :focus-visible) { color: var(--anima-wood); }
+
+.anima-drawer .anima-drawer__nav a:is(:hover, :focus-visible) { color: var(--anima-wood-600); }
+.anima-drawer .anima-drawer__meta a:is(:hover, :focus-visible) { color: var(--anima-wood-600); }
+
+.anima-callbar .anima-callbar__btn:is(:hover, :focus-visible) { color: #fff; }
+.anima-callbar .anima-callbar__map:is(:link, :visited, :hover, :focus-visible) { color: var(--anima-wood); }
+.anima-callbar .anima-callbar__map:hover { color: #fff; }
+
+.anima-footer.anima-footer a:is(:hover, :focus-visible) { color: var(--anima-orange-600); }
+.anima-footer.anima-footer .anima-btn:is(:hover, :focus-visible) { color: var(--btn-fg); }
+.anima-footer .anima-footer__social a:is(:hover, :focus-visible) { color: #fff; }
+
+/* Същото важи и за нашите <button> елементи: нулирането по-горе слага
+   `color: inherit` при hover със специфичност (0,2,1). */
+.anima-tabs .anima-tabs__btn:hover { color: var(--anima-wood); }
+.anima-tabs .anima-tabs__btn.is-active:hover { color: #fff; }
+.anima-lightbox .anima-lightbox__nav:hover,
+.anima-lightbox .anima-lightbox__close:hover { color: #fff; }
+.anima-header .anima-header__icon-btn:hover,
+.anima-drawer .anima-header__icon-btn:hover { color: #fff; }
+
+/* ==========================================================================
+   Секцията „Кои сме ние“ на телефон
+   На широк екран тя е три колони: текст | снимка със заглавието | текст.
+   Наредени една под друга обаче заглавието остава заровено по средата:
+   първо се четат две твърдения, после чак „Кои сме ние“. Тук редът се
+   обръща на заглавие → снимка → твърдения.
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  /* Обръща се само редът на трите колони: първо заглавието със снимката,
+     после твърденията. Опитът колоните да се „разтворят“ с display: contents
+     събори оформлението, защото вътрешните widget-и на Elementor разчитат на
+     променливите, които им подава flex родителят. */
+  .elementor-17 .elementor-element-b1535bb { order: -1; }
+  .elementor-17 .elementor-element-ae2704f { order: 1; }
+  .elementor-17 .elementor-element-8fe0110 { order: 2; }
+
+  /* Двете текстови колони се четат като един списък, затова разстоянието между тях
+     е същото като разстоянието вътре в тях. */
+  .elementor-17 .elementor-element-ae2704f,
+  .elementor-17 .elementor-element-8fe0110 {
+    --gap: 22px 22px;
+    --row-gap: 22px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Заглавието в арката да не се долепя до ръба на снимката. */
+  .elementor-17 .elementor-element-6a1f5b0 {
+    --padding-left: 22px;
+    --padding-right: 22px;
+  }
+}
+
+/* ==========================================================================
+   Бутоните „Запази час“ в секциите на темплейта
+   След махането на декоративната иконка останаха дребни и бели. Тук получават
+   размера и цвета на призива за действие в останалата част от сайта.
+   ========================================================================== */
+
+.elementor-17 .elementor-element .anima-book-btn.anima-book-btn.elementor-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 30px;
+  border: 0;
+  border-radius: 999px;
+  background-color: var(--anima-orange-cta);
+  color: #fff;
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+  box-shadow: 0 10px 26px rgba(51, 38, 28, 0.2);
+  transition: background-color 0.25s var(--anima-ease), transform 0.25s var(--anima-ease),
+    box-shadow 0.25s var(--anima-ease);
+}
+.elementor-17 .elementor-element .anima-book-btn.anima-book-btn.elementor-button:hover,
+.elementor-17 .elementor-element .anima-book-btn.anima-book-btn.elementor-button:focus-visible {
+  background-color: var(--anima-orange-600);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(51, 38, 28, 0.26);
+}
+.elementor-17 .elementor-element .anima-book-btn .elementor-button-content-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.elementor-17 .elementor-element .anima-book-btn__icon {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+}
+/* Темата слага кръгъл фон на всяко <svg> в бутон (така изглеждаше старата
+   иконка-детелина). За нашата иконка го махаме. */
+.elementor-17 .elementor-element .anima-book-btn__icon svg {
+  width: 20px;
+  height: 20px;
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  fill: none;
+  stroke: currentColor;
+}
+
+@media (max-width: 480px) {
+  .elementor-17 .elementor-element .anima-book-btn.anima-book-btn.elementor-button { padding: 0 24px; }
+}
+
+/* Фоновите видеа не бива да поемат клика, защото под тях има бутони. */
+.elementor-17 .elementor-background-video-container,
+.elementor-17 .elementor-background-video-hosted {
+  pointer-events: none;
+}
+
+/* Иконката в пила с телефона идва от нашето SVG, не от иконния шрифт на
+   темата, която го рисуваше в кръгче и приличаше на дребно лого. */
+.elementor-17 .elementor-element-0ff3f0d .elementor-button-content-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+
+/* „или“ между двата бутона: като flex елемент може да се свие до нула и на
+   тесен екран думата се пречупваше на два реда. */
+.elementor-17 .elementor-element-ccf1f3f { flex: 0 0 auto; }
+.elementor-17 .elementor-element-ccf1f3f .elementor-heading-title { white-space: nowrap; }
