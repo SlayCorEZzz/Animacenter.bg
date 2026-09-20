@@ -1,6 +1,8 @@
-node_modules
-dist
-backup
+# Водещата наклонена черта е важна: без нея `dist` би хванал и папките `dist`
+# вътре в public/ (темата и wp-includes имат такива) и сайтът тръгва с 404-ки.
+/node_modules
+/dist
+/backup
 *.rar
 *.zip
 *.local
