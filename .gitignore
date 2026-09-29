@@ -8,3 +8,4 @@
 *.local
 .vercel
 .DS_Store
+dist-ssr

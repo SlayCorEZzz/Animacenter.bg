@@ -1,37 +1,32 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { contacts } from '../content/site.js';
-import { IconCalendar, IconClock, IconPhone, IconPin } from './Icons.jsx';
+import { IconCalendar, IconClock, IconPhone } from './Icons.jsx';
 import Modal from './Modal.jsx';
 
 const BookingContext = createContext(() => {});
 
-/** Хук за отваряне на прозореца за записване отвсякъде в сайта. */
+/** Отваря прозореца „Запази час“ отвсякъде в сайта: useBooking()(). */
 export const useBooking = () => useContext(BookingContext);
-
-/** Viber е най-честият канал за връзка в България. */
-const viberHref = `viber://chat?number=${encodeURIComponent(contacts.phone.replace(/\s/g, ''))}`;
 
 export function BookingProvider({ children }) {
   const [open, setOpen] = useState(false);
 
   const openBooking = useCallback(() => setOpen(true), []);
+  const close = useCallback(() => setOpen(false), []);
 
   /**
-   * Бутоните „Запази час“ в секциите идват от разметката на темплейта и са
-   * обикновени <a href="tel:…">. Вместо да се пипа всеки от тях, кликът се
-   * прихваща тук и отваря избора. Връзките вътре в самия прозорец се
-   * пропускат, за да работи истинското обаждане.
+   * Всеки елемент с data-book отваря прозореца. Прихващат се и старите бутони
+   * на темплейта (a.elementor-button с tel:), но не и обикновените телефонни
+   * номера: те звънят направо.
    */
   useEffect(() => {
     const onClick = (e) => {
-      const el = e.target.closest?.('a[href^="tel:"], [data-book]');
+      const el = e.target.closest?.('a.elementor-button[href^="tel:"], [data-book]');
       if (!el || el.closest('.anima-modal')) return;
       if (e.metaKey || e.ctrlKey || e.button === 1) return;
-
       e.preventDefault();
       openBooking();
     };
-
     document.addEventListener('click', onClick);
     return () => document.removeEventListener('click', onClick);
   }, [openBooking]);
@@ -41,114 +36,75 @@ export function BookingProvider({ children }) {
   return (
     <BookingContext.Provider value={value}>
       {children}
-
-      <Modal open={open} onClose={() => setOpen(false)} label="Запазване на час" className="anima-book">
-        <div className="anima-book__head">
-          <p className="anima-eyebrow">ANIMA Center</p>
-          <h2>Запазване на час</h2>
-          <p className="anima-book__lead">Изберете как предпочитате да запазите часа си.</p>
-        </div>
-
-        <ChoiceView />
-
-        <div className="anima-book__foot">
-          <span>
-            <IconPin />
-            {contacts.street}, {contacts.city}
-          </span>
-          <span>
-            <IconClock />
-            {contacts.hoursShort}
-          </span>
-        </div>
+      <Modal open={open} onClose={close} label="Запази час" className="anima-book">
+        {open && <BookingChoices />}
       </Modal>
     </BookingContext.Provider>
   );
 }
 
 /**
- * Начините за записване. Онлайн записването стои първо, защото се прави по
- * всяко време и не чака работно време.
+ * Два бутона: онлайн резервация и обаждане.
  *
- * Тук няма форма: резервациите се приемат от външна платформа, където човек
- * си избира услугата и часа. Адресът й стои в `contacts.bookingUrl`.
+ * Адресът на системата за резервации се слага на едно място:
+ * src/content/site.js -> contacts.bookingUrl. Докато е празен, бутонът
+ * стои, но при натискане казва, че онлайн резервациите предстоят.
  */
-function ChoiceView() {
-  return (
-    <div className="anima-book__choices">
-      <OnlineCard />
-
-      <a className="anima-book__card" href={contacts.phoneHref}>
-        <span className="anima-book__icon">
-          <IconPhone />
-        </span>
-        <span className="anima-book__body">
-          <strong>Обади се сега</strong>
-          <span className="anima-book__num">{contacts.phone}</span>
-          <small>Потвърждаваме часа веднага, {contacts.hoursShort}</small>
-        </span>
-      </a>
-
-      <div className="anima-book__alt">
-        <span>Или пишете в</span>
-        <a href={viberHref}>Viber</a>
-        <span aria-hidden="true">·</span>
-        <a href={contacts.emailHref}>имейл</a>
-        <span aria-hidden="true">·</span>
-        <a href={contacts.phoneAltHref}>{contacts.phoneAlt}</a>
-      </div>
-    </div>
-  );
-}
-
-/**
- * Бутонът за онлайн записване.
- *
- * Адресът на платформата се попълва на едно място - `contacts.bookingUrl`
- * в src/content/site.js. Докато е празен, картата си стои на мястото, но
- * изключена, за да не води наникъде; щом се попълни, става истинска
- * връзка, която се отваря в нов раздел.
- */
-function OnlineCard() {
+function BookingChoices() {
+  const [soon, setSoon] = useState(false);
   const url = contacts.bookingUrl;
 
-  const inside = (
+  const online = (
     <>
       <span className="anima-book__icon">
         <IconCalendar />
       </span>
       <span className="anima-book__body">
-        <strong>Запази час онлайн</strong>
-        <span className="anima-book__num">Вижте свободните часове</span>
-        <small>
-          {url
-            ? 'Изберете услуга и час в системата за резервации'
-            : 'Системата за резервации се включва скоро'}
-        </small>
+        <strong>Онлайн резервация</strong>
+        <small>Избери услуга и свободен час</small>
       </span>
     </>
   );
 
-  if (!url) {
-    return (
-      <button
-        type="button"
-        className="anima-book__card anima-book__card--primary is-waiting"
-        disabled
-      >
-        {inside}
-      </button>
-    );
-  }
-
   return (
-    <a
-      className="anima-book__card anima-book__card--primary"
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {inside}
-    </a>
+    <div className="anima-book__simple">
+      <div className="anima-book__head">
+        <h2>Запази час</h2>
+        <p className="anima-book__lead">Как ти е удобно?</p>
+      </div>
+
+      <div className="anima-book__choices">
+        {url ? (
+          <a className="anima-book__card anima-book__card--primary" href={url} target="_blank" rel="noopener noreferrer">
+            {online}
+          </a>
+        ) : (
+          <button type="button" className="anima-book__card anima-book__card--primary" onClick={() => setSoon(true)}>
+            {online}
+          </button>
+        )}
+
+        <a className="anima-book__card" href={contacts.phoneHref}>
+          <span className="anima-book__icon">
+            <IconPhone />
+          </span>
+          <span className="anima-book__body">
+            <strong>Обади се</strong>
+            <span className="anima-book__num">{contacts.phone}</span>
+          </span>
+        </a>
+      </div>
+
+      {soon && (
+        <p className="anima-book__soon" role="status">
+          Онлайн резервациите се включват съвсем скоро. Дотогава се обади и ще запазим час веднага.
+        </p>
+      )}
+
+      <p className="anima-book__hours">
+        <IconClock />
+        {contacts.hoursShort}
+      </p>
+    </div>
   );
 }

@@ -1,0 +1,2 @@
+# Всички текстови файлове с LF (Vercel е Linux; скриптовете в tools/ разчитат на LF).
+* text=auto eol=lf

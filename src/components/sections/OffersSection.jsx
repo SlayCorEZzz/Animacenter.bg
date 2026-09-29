@@ -39,7 +39,7 @@ export default function OffersSection() {
               <div className="anima-offer__body">
                 <h3>{offer.title}</h3>
                 <p>{offer.text}</p>
-                <button type="button" className="anima-btn anima-btn--ghost" data-book>
+                <button type="button" className="anima-btn anima-btn--ghost" data-book={offer.book}>
                   {offer.cta}
                 </button>
               </div>

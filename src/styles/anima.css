@@ -31,12 +31,13 @@
   --anima-muted: #6f6255; /* топло сиво-кафяво (старото #6e6b58 биеше на зелено) */
   --anima-line: rgba(51, 38, 28, 0.14);
 
-  --anima-header-h: 96px;
+  --anima-header-h: 132px;
+  --anima-header-row: 86px;
   --anima-radius: 18px;
   --anima-shadow: 0 18px 50px rgba(51, 38, 28, 0.14);
   --anima-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
-  --anima-logo-h: 74px;
+  --anima-logo-h: 66px;
 
   /* отстъп отстрани, един и същ за темата и за новите секции */
   --anima-gutter: clamp(16px, 4vw, 40px);
@@ -93,6 +94,10 @@ html {
 
 /* нищо да не изнася страницата настрани на телефон */
 html, body { overflow-x: clip; }
+
+/* iPhone: бързо двойно докосване (напр. по часовете в записването) не бива
+   да приближава страницата. Разпъването с два пръста остава. */
+html { touch-action: manipulation; }
 
 /* Маркупът на Elementor скрива анимираните елементи с `elementor-invisible` и
    чака рънтаймът да ги покаже. Появата е поета от src/legacy/revealAnimations.js,
@@ -227,96 +232,82 @@ img, video { max-width: 100%; }
   position: fixed;
   inset: 0 0 auto;
   z-index: 1000;
-  height: var(--anima-header-h);
   color: #fff;
   background: transparent;
   transition: background-color 0.3s var(--anima-ease), box-shadow 0.3s var(--anima-ease),
     color 0.3s var(--anima-ease);
 }
 
-/* лек градиент, за да се чете логото върху светла снимка */
+/* лек градиент, за да се четат логото и менюто върху светла снимка */
 .anima-header::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(30, 23, 17, 0.55), rgba(30, 23, 17, 0));
+  inset: 0 0 -24px;
+  background: linear-gradient(to bottom, rgba(30, 23, 17, 0.62), rgba(30, 23, 17, 0));
   opacity: 1;
   transition: opacity 0.3s var(--anima-ease);
   pointer-events: none;
 }
 
 .anima-header.is-solid {
-  background: rgba(247, 243, 234, 0.94);
+  background: rgba(247, 243, 234, 0.95);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 1px 0 rgba(51, 38, 28, 0.08), 0 10px 30px rgba(51, 38, 28, 0.07);
   color: var(--anima-ink);
 }
 .anima-header.is-solid::before { opacity: 0; }
 
+/* Горен ред по заданието: [Запази час + надпис] [лого] [телефон] */
 .anima-header__inner {
-  display: flex;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 20px;
   max-width: 1280px;
-  height: 100%;
+  height: var(--anima-header-row, 86px);
   margin: 0 auto;
   padding: 0 clamp(16px, 4vw, 40px);
+  transition: height 0.3s var(--anima-ease);
 }
 
-.anima-header__logo {
-  flex: 0 0 auto;
+.anima-header__left {
   display: flex;
   align-items: center;
-  /* Логото е и връзка към началото, затова целта остава удобна за пръст дори
-     когато самата картинка се смали (телефон в легнало положение). */
+  gap: 18px;
+  min-width: 0;
+}
+
+.anima-header__slogan {
+  margin: 0;
+  max-width: 300px;
+  color: inherit;
+  font: italic 400 15px/1.38 'Ovo', Georgia, serif;
+  opacity: 0.95;
+}
+.anima-header__slogan span { display: block; }
+
+.anima-header__logo {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  /* Логото е и връзка към началото, затова целта остава удобна за пръст. */
   min-height: 44px;
   line-height: 0;
 }
-/* Логото е оригиналното SVG, едно <img>, а светлият вариант върху хероя се
-   получава с филтър. По-рано тук стояха две снимки една върху друга и при
-   превключването се получаваше трепване. */
+/* Оригиналното SVG, едно <img>; светлият вариант върху хероя е с филтър. */
 .anima-header__logo img {
   display: block;
   width: auto;
-  height: var(--anima-logo-h, 74px);
+  height: var(--anima-logo-h, 66px);
   filter: brightness(0) invert(1);
-  transition: filter 0.3s var(--anima-ease);
+  transition: filter 0.3s var(--anima-ease), height 0.3s var(--anima-ease);
 }
 .anima-header.is-solid .anima-header__logo img { filter: none; }
 
-.anima-header__nav {
-  display: flex;
-  align-items: center;
-  gap: clamp(14px, 2vw, 30px);
-  margin-inline: auto;
-}
-.anima-header__nav a {
-  position: relative;
-  color: inherit;
-  font: 600 15px/1 'Manrope', system-ui, sans-serif;
-  text-decoration: none;
-  padding: 10px 2px;
-  white-space: nowrap;
-}
-.anima-header__nav a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 4px;
-  height: 2px;
-  background: var(--anima-wood-600);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.25s var(--anima-ease);
-}
-.anima-header__nav a:hover,
-.anima-header__nav a:focus-visible { color: inherit; text-decoration: none; }
-.anima-header__nav a:hover::after,
-.anima-header__nav a:focus-visible::after { transform: scaleX(1); }
-
 .anima-header__actions {
-  flex: 0 0 auto;
+  justify-self: end;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -326,14 +317,60 @@ img, video { max-width: 100%; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-height: 44px;
   color: inherit;
   font: 600 15px/1 'Manrope', system-ui, sans-serif;
   text-decoration: none;
   white-space: nowrap;
 }
-.anima-header__phone:hover { color: var(--anima-wood-600); text-decoration: none; }
+.anima-header__phone:hover { text-decoration: underline; text-underline-offset: 4px; }
 
-.anima-header__cta { min-height: 44px; padding: 0 22px; }
+/* Менюто под логото */
+.anima-header__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 2.8vw, 44px);
+  max-width: 1280px;
+  height: 46px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 40px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  transition: border-color 0.3s var(--anima-ease);
+}
+.anima-header.is-solid .anima-header__nav { border-top-color: rgba(51, 38, 28, 0.1); }
+.anima-header__nav a {
+  position: relative;
+  color: inherit;
+  font: 600 15px/1 'Manrope', system-ui, sans-serif;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  padding: 12px 2px;
+  white-space: nowrap;
+}
+.anima-header__nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  height: 2px;
+  background: var(--anima-orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--anima-ease);
+}
+.anima-header__nav a:hover,
+.anima-header__nav a:focus-visible { color: inherit; text-decoration: none; }
+.anima-header__nav a:hover::after,
+.anima-header__nav a:focus-visible::after,
+.anima-header__nav a.is-current::after { transform: scaleX(1); }
+
+/* При скрол горният ред се смалява, менюто остава. */
+@media (min-width: 1025px) {
+  .anima-header.is-solid .anima-header__inner { height: 66px; }
+  .anima-header.is-solid .anima-header__logo img { height: 50px; }
+}
 
 .anima-header .anima-header__icon-btn,
 .anima-drawer .anima-header__icon-btn {
@@ -358,19 +395,13 @@ img, video { max-width: 100%; }
   color: #fff;
 }
 
-/* --- планшет и телефон --- */
+/* --- таблет и телефон: един ред [лого в средата] [меню вдясно] --- */
 @media (max-width: 1024px) {
-  /* CTA-то е .anima-btn, чието правило е (0,2,0), затова скриването трябва да е
-     поне толкова специфично, иначе бутонът остава видим на телефон. */
+  .anima-header__inner { height: var(--anima-header-h); gap: 10px; }
   .anima-header .anima-header__nav,
-  .anima-header .anima-header__phone,
-  .anima-header .anima-header__cta.anima-btn { display: none; }
+  .anima-header .anima-header__slogan,
+  .anima-header .anima-header__phone { display: none; }
   .anima-header .anima-header__icon-btn { display: inline-flex; }
-  .anima-header__actions { margin-left: auto; }
-}
-
-@media (min-width: 1025px) {
-  .anima-header .anima-header__icon-btn { display: none; }
 }
 
 /* ==========================================================================
@@ -643,13 +674,6 @@ img, video { max-width: 100%; }
   .anima-contact-list div,
   .anima-drawer__meta li { gap: 0; }
   .anima-contact-list li { align-items: center; }
-
-  /* Текстът с локацията в хероя е и връзка към контактите. */
-  .elementor-17 .elementor-element-661e226 .elementor-heading-title a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-  }
 }
 
 @media (min-width: 1025px) and (pointer: fine) {
@@ -690,8 +714,14 @@ img, video { max-width: 100%; }
 }
 
 .anima-header .anima-header__nav a:is(:hover, :focus-visible) { color: inherit; }
-.anima-header .anima-header__phone:is(:hover, :focus-visible) { color: var(--anima-wood-600); }
-.anima-header.is-solid .anima-header__phone:is(:hover, :focus-visible) { color: var(--anima-wood); }
+/* Върху видеото номерът остава бял (тъмен цвят там не се вижда);
+   на светлия фон става в акцентния цвят. И в двата случая се подчертава. */
+.anima-header .anima-header__phone:is(:hover, :focus-visible) {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.anima-header.is-solid .anima-header__phone:is(:hover, :focus-visible) { color: var(--anima-orange-600); }
 
 .anima-drawer .anima-drawer__nav a:is(:hover, :focus-visible) { color: var(--anima-wood-600); }
 .anima-drawer .anima-drawer__meta a:is(:hover, :focus-visible) { color: var(--anima-wood-600); }

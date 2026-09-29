@@ -25,7 +25,7 @@ export default function HeroSection() {
             data-settings='{"_animation":"slideInUp"}'
             data-widget_type="heading.default"
           >
-            <h2 className="elementor-heading-title elementor-size-default">{"Масаж за вашето \n"}<br />{"\nтяло и ум"}</h2>
+            <h1 className="elementor-heading-title elementor-size-default">Анима – Център за масажи, кинезитерапия и естетически процедури.</h1>
           </div>
           <div
             className="vamtam-has-theme-widget-styles elementor-element elementor-element-c4ea099 elementor-invisible elementor-widget elementor-widget-text-editor"
@@ -35,7 +35,7 @@ export default function HeroSection() {
             data-settings='{"_animation":"fadeIn","_animation_delay":150}'
             data-widget_type="text-editor.default"
           >
-            <p>Направете го седмичен ритуал. Отпуснете се, презаредете се, възстановете се.</p>
+            <p>Твоето място за масаж в сърцето на София.</p>
           </div>
         </div>
         <div
@@ -67,25 +67,6 @@ export default function HeroSection() {
                   <span className="elementor-button-text">Запази час</span>
                 </span>
               </a>
-            </div>
-          </div>
-          <div
-            className="elementor-element elementor-element-fd70280 e-con-full animated-fast e-flex elementor-invisible e-con e-child"
-            data-id="fd70280"
-            data-element_type="container"
-            data-e-type="container"
-            data-settings='{"animation":"slideInUp","animation_delay":50}'
-          >
-            <div
-              className="elementor-element elementor-element-661e226 elementor-widget elementor-widget-heading"
-              data-id="661e226"
-              data-element_type="widget"
-              data-e-type="widget"
-              data-widget_type="heading.default"
-            >
-              <div className="elementor-heading-title elementor-size-default">
-                <a href="#kontakti">В сърцето на София, до метростанция „Сердика“</a>
-              </div>
             </div>
           </div>
         </div>
@@ -125,7 +106,7 @@ export default function HeroSection() {
                     data-e-type="widget"
                     data-widget_type="heading.default"
                   >
-                    <div className="elementor-heading-title elementor-size-default">Релаксиращ масаж</div>
+                    <div className="elementor-heading-title elementor-size-default">Масажи</div>
                   </div>
                 </div>
               </div>
@@ -143,7 +124,7 @@ export default function HeroSection() {
                     data-e-type="widget"
                     data-widget_type="heading.default"
                   >
-                    <div className="elementor-heading-title elementor-size-default">Гъвкавост</div>
+                    <div className="elementor-heading-title elementor-size-default">Консултации</div>
                   </div>
                 </div>
               </div>
@@ -161,7 +142,7 @@ export default function HeroSection() {
                     data-e-type="widget"
                     data-widget_type="heading.default"
                   >
-                    <div className="elementor-heading-title elementor-size-default">Лечебен масаж</div>
+                    <div className="elementor-heading-title elementor-size-default">Кинезитерапия</div>
                   </div>
                 </div>
               </div>
@@ -179,7 +160,7 @@ export default function HeroSection() {
                     data-e-type="widget"
                     data-widget_type="heading.default"
                   >
-                    <div className="elementor-heading-title elementor-size-default">Разпускане</div>
+                    <div className="elementor-heading-title elementor-size-default">Мануална терапия</div>
                   </div>
                 </div>
               </div>
@@ -197,7 +178,7 @@ export default function HeroSection() {
                     data-e-type="widget"
                     data-widget_type="heading.default"
                   >
-                    <div className="elementor-heading-title elementor-size-default">Кинезитерапия</div>
+                    <div className="elementor-heading-title elementor-size-default">Вендузи</div>
                   </div>
                 </div>
               </div>
@@ -215,7 +196,7 @@ export default function HeroSection() {
                     data-e-type="widget"
                     data-widget_type="heading.default"
                   >
-                    <div className="elementor-heading-title elementor-size-default">Терапия за лице</div>
+                    <div className="elementor-heading-title elementor-size-default">Апаратен лимфодренаж</div>
                   </div>
                 </div>
               </div>
@@ -233,7 +214,7 @@ export default function HeroSection() {
                     data-e-type="widget"
                     data-widget_type="heading.default"
                   >
-                    <div className="elementor-heading-title elementor-size-default">Масаж с етерични масла</div>
+                    <div className="elementor-heading-title elementor-size-default">TENS електростимулация</div>
                   </div>
                 </div>
               </div>
@@ -251,7 +232,7 @@ export default function HeroSection() {
                     data-e-type="widget"
                     data-widget_type="heading.default"
                   >
-                    <div className="elementor-heading-title elementor-size-default">Спокойствие</div>
+                    <div className="elementor-heading-title elementor-size-default">Козметика и маникюр</div>
                   </div>
                 </div>
               </div>

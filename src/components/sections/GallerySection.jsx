@@ -53,11 +53,11 @@ export default function GallerySection() {
 
         <ul className="anima-gallery__grid">
           {gallery.map((item, i) => (
-            <li key={item.src}>
+            <li key={item.src} className={item.wide ? 'is-wide' : undefined}>
               <button type="button" onClick={() => setIndex(i)} aria-label={`Отвори: ${item.alt}`}>
                 <img
                   src={`${item.src}.jpg`}
-                  srcSet={`${item.src}@600.jpg 600w, ${item.src}.jpg ${i === 0 ? 1200 : 900}w`}
+                  srcSet={`${item.src}@600.jpg 600w, ${item.src}.jpg ${item.w ?? 900}w`}
                   sizes={i === 0 ? '(max-width: 700px) 92vw, 46vw' : '(max-width: 700px) 45vw, 23vw'}
                   alt={item.alt}
                   loading={i === 0 ? 'eager' : 'lazy'}

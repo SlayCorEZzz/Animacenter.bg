@@ -199,6 +199,7 @@
   overflow: hidden;
   box-shadow: var(--anima-shadow);
 }
+.anima-therapist__media picture { display: block; height: 100%; }
 .anima-therapist__media img {
   display: block;
   width: 100%;
@@ -283,6 +284,15 @@
 .anima-gallery__grid button:focus-visible img { transform: scale(1.05); }
 
 @media (max-width: 1024px) { .anima-gallery__grid { grid-template-columns: repeat(3, 1fr); } }
+/* 12 снимки: първата е 2x2, една хоризонтална (is-wide) е на две клетки,
+   така решетката се запълва без празна клетка на 4, 3 и 2 колони.
+   На 3 колони първата заема целия ред (2 реда височина). */
+@media (max-width: 1024px) and (min-width: 701px) { .anima-gallery__grid li:first-child { grid-column: span 3; } }
+.anima-gallery__grid { grid-auto-flow: row dense; }
+.anima-gallery__grid li.is-wide { grid-column: span 2; }
+.anima-gallery__grid li.is-wide button { height: 100%; }
+.anima-gallery__grid li.is-wide img { aspect-ratio: auto; height: 100%; }
+@media (max-width: 700px) { .anima-gallery__grid li.is-wide img { aspect-ratio: 4 / 3; } }
 @media (max-width: 700px) { .anima-gallery__grid { grid-template-columns: repeat(2, 1fr); } }
 
 /* --- лайтбокс (ползва общия Modal) --- */
@@ -637,4 +647,241 @@
   height: clamp(300px, 32vw, 460px);
   border: 0;
   filter: saturate(0.92);
+}
+
+/* ==========================================================================
+   „Прочети повече“ в ценовата листа
+   ========================================================================== */
+
+.anima-prices .anima-price__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  margin-top: 4px;
+  color: var(--anima-wood-600);
+  font: 600 14.5px/1.3 'Manrope', system-ui, sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.anima-prices .anima-price__more:hover { color: var(--anima-orange-600); }
+
+/* ==========================================================================
+   Екип (текстът над терапевта)
+   ========================================================================== */
+
+.anima-team__head { text-align: center; }
+.anima-team__intro {
+  max-width: 820px;
+  margin: 0 auto;
+  color: var(--anima-ink);
+  font: 400 clamp(19px, 2.2vw, 25px) / 1.5 'Ovo', Georgia, serif;
+}
+
+/* ==========================================================================
+   Ред в долната част на страницата
+   ========================================================================== */
+
+.anima-footer .anima-footer__line {
+  margin: 0;
+  padding: 26px 0 6px;
+  border-top: 1px solid rgba(51, 38, 28, 0.12);
+  text-align: center;
+  color: var(--anima-ink);
+  font: 400 clamp(19px, 2.4vw, 26px) / 1.35 'Ovo', Georgia, serif;
+}
+
+/* ==========================================================================
+   Ваучери
+   ========================================================================== */
+
+.anima-vouchers { background: #fff; }
+.anima-vouchers__inner { max-width: 1180px; }
+.anima-voucher,
+.anima-voucher__done { max-width: 900px; margin-inline: auto; }
+.anima-vouchers__lead {
+  margin: 12px 0 0;
+  color: var(--anima-wood-600);
+  font: 400 clamp(20px, 2.4vw, 26px) / 1.3 'Ovo', Georgia, serif;
+}
+.anima-vouchers .anima-vouchers__kinds {
+  margin: 10px 0 0;
+  padding-left: 22px;
+  color: var(--anima-ink);
+  font: 600 16px/1.7 'Manrope', system-ui, sans-serif;
+}
+
+.anima-voucher { display: grid; gap: 16px; }
+.anima-vouchers .anima-voucher__step {
+  margin: 0;
+  min-width: 0;
+  padding: clamp(18px, 3vw, 28px);
+  border: 1px solid rgba(51, 38, 28, 0.12);
+  border-radius: 16px;
+  background: var(--anima-cream);
+}
+.anima-vouchers .anima-voucher__step legend {
+  float: left;
+  width: 100%;
+  margin: 0 0 14px;
+  padding: 0;
+  color: var(--anima-ink);
+  font: 400 clamp(20px, 2.4vw, 24px) / 1.3 'Ovo', Georgia, serif;
+}
+.anima-voucher__step legend + * { clear: both; }
+
+.anima-voucher__options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.anima-voucher__pills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.anima-vouchers .anima-voucher__choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 12px 16px;
+  border: 1.5px solid rgba(51, 38, 28, 0.16);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--anima-ink);
+  font: 600 15px/1.4 'Manrope', system-ui, sans-serif;
+  cursor: pointer;
+  transition: border-color 0.2s var(--anima-ease), background-color 0.2s var(--anima-ease), color 0.2s var(--anima-ease);
+}
+.anima-vouchers .anima-voucher__choice:hover { border-color: var(--anima-wood); }
+.anima-vouchers .anima-voucher__choice input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+.anima-vouchers .anima-voucher__choice::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid rgba(51, 38, 28, 0.35);
+  border-radius: 50%;
+  background: #fff;
+  transition: border 0.2s var(--anima-ease);
+}
+.anima-vouchers .anima-voucher__choice.is-checked { border-color: var(--anima-wood); }
+.anima-vouchers .anima-voucher__choice.is-checked::before { border: 6px solid var(--anima-orange-cta); }
+.anima-vouchers .anima-voucher__choice:has(input:focus-visible) { outline: 2px solid var(--anima-orange); outline-offset: 2px; }
+
+.anima-vouchers .anima-voucher__choice.is-pill { min-height: 44px; padding: 8px 18px; border-radius: 999px; }
+.anima-vouchers .anima-voucher__choice.is-pill::before { display: none; }
+.anima-vouchers .anima-voucher__choice.is-pill.is-checked {
+  background: var(--anima-wood);
+  border-color: var(--anima-wood);
+  color: #fff;
+}
+
+.anima-voucher__item {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid rgba(51, 38, 28, 0.1);
+}
+.anima-voucher__item + .anima-voucher__item { margin-top: 12px; }
+.anima-voucher__item-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.anima-voucher__item-head strong { font: 400 20px/1.3 'Ovo', Georgia, serif; color: var(--anima-ink); }
+.anima-vouchers .anima-btn.anima-voucher__remove { min-height: 40px; padding: 0 16px; font-size: 14px; }
+.anima-vouchers .anima-btn.anima-voucher__add { width: 100%; margin-top: 12px; }
+
+.anima-vouchers .anima-voucher__label {
+  display: block;
+  margin: 0 0 6px;
+  color: var(--anima-ink);
+  font: 700 14px/1.4 'Manrope', system-ui, sans-serif;
+}
+.anima-voucher__fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.anima-vouchers .anima-voucher__field { display: block; min-width: 0; }
+.anima-vouchers .anima-voucher__field--short { max-width: 240px; }
+.anima-vouchers .anima-voucher__field input,
+.anima-vouchers .anima-voucher__field select {
+  width: 100%;
+  min-height: 48px;
+  margin: 0;
+  padding: 10px 14px;
+  border: 1.5px solid rgba(51, 38, 28, 0.2);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--anima-ink);
+  font: 500 16px/1.3 'Manrope', system-ui, sans-serif;
+}
+.anima-vouchers .anima-voucher__field select:disabled { background: var(--anima-cream); color: var(--anima-muted); }
+.anima-vouchers .anima-voucher__field input:focus,
+.anima-vouchers .anima-voucher__field select:focus {
+  outline: none;
+  border-color: var(--anima-wood);
+  box-shadow: 0 0 0 3px rgba(91, 68, 50, 0.12);
+}
+
+.anima-vouchers .anima-voucher__summary { list-style: none; margin: 0; padding: 0; }
+.anima-voucher__summary li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(51, 38, 28, 0.1);
+  font: 500 15.5px/1.45 'Manrope', system-ui, sans-serif;
+}
+.anima-voucher__summary strong { white-space: nowrap; color: var(--anima-wood-600); }
+.anima-vouchers .anima-voucher__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 12px 0 0;
+  font: 700 16px/1.3 'Manrope', system-ui, sans-serif;
+}
+.anima-voucher__total strong { font: 400 30px/1 'Ovo', Georgia, serif; color: var(--anima-ink); }
+
+.anima-vouchers .anima-voucher__hint,
+.anima-vouchers .anima-voucher__error {
+  margin: 0;
+  font: 500 14.5px/1.5 'Manrope', system-ui, sans-serif;
+  color: var(--anima-muted);
+}
+.anima-vouchers .anima-voucher__error { margin-top: 6px; color: #a3401f; font-weight: 600; }
+
+.anima-voucher__terms {
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: var(--anima-wood-100);
+}
+.anima-vouchers .anima-voucher__terms h3 {
+  margin: 0 0 6px;
+  font: 400 20px/1.3 'Ovo', Georgia, serif;
+  color: var(--anima-ink);
+}
+.anima-vouchers .anima-voucher__terms p {
+  margin: 0;
+  color: var(--anima-muted);
+  font: 400 14.5px/1.65 'Manrope', system-ui, sans-serif;
+}
+
+.anima-voucher__done {
+  padding: clamp(20px, 3vw, 32px);
+  border-radius: 16px;
+  background: var(--anima-cream);
+}
+.anima-vouchers .anima-voucher__done h3 { margin: 0 0 8px; font: 400 26px/1.3 'Ovo', Georgia, serif; }
+.anima-voucher__done p { font: 400 15.5px/1.6 'Manrope', system-ui, sans-serif; color: var(--anima-muted); }
+.anima-voucher__done pre {
+  margin: 16px 0 0;
+  padding: 16px;
+  border-radius: 12px;
+  background: #fff;
+  font: 400 14px/1.6 'Manrope', system-ui, sans-serif;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 720px) {
+  .anima-voucher__options,
+  .anima-voucher__fields { grid-template-columns: 1fr; }
 }

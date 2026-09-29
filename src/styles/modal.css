@@ -251,3 +251,114 @@
   background: var(--anima-wood);
   color: #fff;
 }
+
+/* ==========================================================================
+   Пълно описание на масаж (прозорецът от картите и ценовата листа)
+   ========================================================================== */
+
+.anima-modal.anima-detail .anima-modal__panel { width: min(760px, 100%); }
+
+.anima-detail__head { padding-right: 48px; }
+.anima-detail__head h2 {
+  margin: 0;
+  font: 400 clamp(24px, 3.4vw, 34px) / 1.18 'Ovo', Georgia, serif;
+  color: var(--anima-ink);
+}
+.anima-modal .anima-detail__prices {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+}
+.anima-detail__prices li {
+  display: inline-flex;
+  gap: 8px;
+  align-items: baseline;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid rgba(51, 38, 28, 0.12);
+  font: 500 14px/1.2 'Manrope', system-ui, sans-serif;
+  color: var(--anima-muted);
+}
+.anima-detail__prices strong { color: var(--anima-wood-600); font-weight: 700; }
+
+.anima-detail__body {
+  margin-top: 22px;
+  color: var(--anima-ink);
+  font: 400 15.5px/1.7 'Manrope', system-ui, sans-serif;
+}
+.anima-rich p { margin: 0 0 12px; }
+.anima-rich strong { font-weight: 700; }
+.anima-rich .anima-rich__h {
+  margin: 22px 0 10px;
+  font: 400 clamp(20px, 2.4vw, 24px) / 1.25 'Ovo', Georgia, serif;
+  color: var(--anima-ink);
+}
+.anima-rich .anima-rich__list {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  margin: 0 0 14px;
+  padding: 0;
+}
+.anima-rich__list li { display: flex; gap: 10px; align-items: flex-start; }
+.anima-rich .anima-rich__list svg {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 4px;
+  color: var(--anima-orange);
+}
+.anima-rich__list.is-strong span { font-weight: 700; }
+.anima-rich .anima-rich__ol { margin: 0 0 14px; padding-left: 22px; display: grid; gap: 8px; }
+.anima-rich__callout {
+  margin: 18px 0;
+  padding: 18px 20px;
+  border-left: 3px solid var(--anima-orange);
+  border-radius: 0 12px 12px 0;
+  background: #fff;
+}
+.anima-rich .anima-rich__callout h3 {
+  margin: 0 0 6px;
+  font: 400 20px/1.3 'Ovo', Georgia, serif;
+  color: var(--anima-ink);
+}
+.anima-rich__callout p { margin: 0; color: var(--anima-muted); }
+
+.anima-modal .anima-detail__facts {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  margin: 22px 0 0;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: var(--anima-wood-100);
+  font: 400 15px/1.55 'Manrope', system-ui, sans-serif;
+  color: var(--anima-ink);
+}
+.anima-detail__facts li { display: flex; gap: 10px; }
+.anima-detail__facts li > span:first-child { color: var(--anima-wood-550); }
+
+.anima-detail__cta {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(51, 38, 28, 0.1);
+  text-align: center;
+}
+.anima-detail__cta-title {
+  margin: 0;
+  font: 400 clamp(20px, 2.6vw, 25px) / 1.3 'Ovo', Georgia, serif;
+  color: var(--anima-orange-600);
+}
+.anima-detail__cta-text {
+  margin: 0;
+  max-width: 52ch;
+  color: var(--anima-muted);
+  font: 400 14.5px/1.6 'Manrope', system-ui, sans-serif;
+}

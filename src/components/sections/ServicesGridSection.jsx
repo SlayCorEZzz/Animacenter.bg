@@ -37,7 +37,8 @@ export default function ServicesGridSection() {
                     data-id="5aa777c"
                     data-element_type="container"
                     data-e-type="container"
-                    href="#ceni"
+                    href="/uslugi/masazhi/klasicheski-masazh"
+                    data-service="Класически масаж"
                   >
                     <div className="e-con-inner">
                       <div
@@ -58,7 +59,8 @@ export default function ServicesGridSection() {
                     data-element_type="container"
                     data-e-type="container"
                     data-settings='{"background_background":"classic"}'
-                    href="#ceni"
+                    href="/uslugi/masazhi/klasicheski-masazh"
+                    data-service="Класически масаж"
                   >
                     <div
                       className="elementor-element elementor-element-9a32321 e-con-full vamtam-has-theme-cp vamtam-cp-top e-flex e-con e-child"
@@ -76,7 +78,7 @@ export default function ServicesGridSection() {
                       >
                         <h5 className="elementor-heading-title elementor-size-default">Класически масаж</h5>
                       </div>
-                      <div className="vamtam-has-theme-widget-styles elementor-element elementor-element-43091af elementor-widget elementor-widget-text-editor" data-id="43091af" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">{"\n\t\t\t\t\t\t\t\t\tОблекчава мускулното напрежение и подобрява кръвообращението. От 52 €.\t\t\t\t\t\t\t\t"}</div>
+                      <div className="vamtam-has-theme-widget-styles elementor-element elementor-element-43091af elementor-widget elementor-widget-text-editor" data-id="43091af" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">{"\n\t\t\t\t\t\t\t\t\tТерапевтичен масаж с плавни и дълбоки техники за отпускане на мускулите, подобряване на кръвообращението и намаляване на стреса. От 52 €.\t\t\t\t\t\t\t\t"}</div>
                     </div>
                   </a>
                 </div>
@@ -100,7 +102,8 @@ export default function ServicesGridSection() {
                     data-id="5aa777c"
                     data-element_type="container"
                     data-e-type="container"
-                    href="#ceni"
+                    href="/uslugi/masazhi/relaksirasht-masazh"
+                    data-service="Релаксиращ масаж"
                   >
                     <div className="e-con-inner">
                       <div
@@ -121,7 +124,8 @@ export default function ServicesGridSection() {
                     data-element_type="container"
                     data-e-type="container"
                     data-settings='{"background_background":"classic"}'
-                    href="#ceni"
+                    href="/uslugi/masazhi/relaksirasht-masazh"
+                    data-service="Релаксиращ масаж"
                   >
                     <div
                       className="elementor-element elementor-element-9a32321 e-con-full vamtam-has-theme-cp vamtam-cp-top e-flex e-con e-child"
@@ -139,7 +143,7 @@ export default function ServicesGridSection() {
                       >
                         <h5 className="elementor-heading-title elementor-size-default">Релаксиращ масаж</h5>
                       </div>
-                      <div className="vamtam-has-theme-widget-styles elementor-element elementor-element-43091af elementor-widget elementor-widget-text-editor" data-id="43091af" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">{"\n\t\t\t\t\t\t\t\t\tНежен и успокояващ метод за дълбока релаксация и облекчение на стреса. От 47 €.\t\t\t\t\t\t\t\t"}</div>
+                      <div className="vamtam-has-theme-widget-styles elementor-element elementor-element-43091af elementor-widget elementor-widget-text-editor" data-id="43091af" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">{"\n\t\t\t\t\t\t\t\t\tС успокояващи техники се постига дълбока релаксация и облекчение на стреса. От 47 €.\t\t\t\t\t\t\t\t"}</div>
                     </div>
                   </a>
                 </div>
@@ -163,7 +167,8 @@ export default function ServicesGridSection() {
                     data-id="5aa777c"
                     data-element_type="container"
                     data-e-type="container"
-                    href="#ceni"
+                    href="/uslugi/masazhi/lecheben-masazh"
+                    data-service="Лечебен масаж"
                   >
                     <div className="e-con-inner">
                       <div
@@ -184,7 +189,8 @@ export default function ServicesGridSection() {
                     data-element_type="container"
                     data-e-type="container"
                     data-settings='{"background_background":"classic"}'
-                    href="#ceni"
+                    href="/uslugi/masazhi/lecheben-masazh"
+                    data-service="Лечебен масаж"
                   >
                     <div
                       className="elementor-element elementor-element-9a32321 e-con-full vamtam-has-theme-cp vamtam-cp-top e-flex e-con e-child"
@@ -202,7 +208,7 @@ export default function ServicesGridSection() {
                       >
                         <h5 className="elementor-heading-title elementor-size-default">Лечебен масаж</h5>
                       </div>
-                      <div className="vamtam-has-theme-widget-styles elementor-element elementor-element-43091af elementor-widget elementor-widget-text-editor" data-id="43091af" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">{"\n\t\t\t\t\t\t\t\t\tТерапевтични техники, насочени към конкретна проблемна зона. От 54 €.\t\t\t\t\t\t\t\t"}</div>
+                      <div className="vamtam-has-theme-widget-styles elementor-element elementor-element-43091af elementor-widget elementor-widget-text-editor" data-id="43091af" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">{"\n\t\t\t\t\t\t\t\t\tЦеленасочена терапия за облекчаване на болка, възстановяване на мускулния тонус и подобряване на подвижността. От 54 €.\t\t\t\t\t\t\t\t"}</div>
                     </div>
                   </a>
                 </div>
@@ -226,7 +232,8 @@ export default function ServicesGridSection() {
                     data-id="5aa777c"
                     data-element_type="container"
                     data-e-type="container"
-                    href="#ceni"
+                    href="/uslugi/masazhi/miofastsialen-masazh"
+                    data-service="Миофасциален масаж"
                   >
                     <div className="e-con-inner">
                       <div
@@ -247,7 +254,8 @@ export default function ServicesGridSection() {
                     data-element_type="container"
                     data-e-type="container"
                     data-settings='{"background_background":"classic"}'
-                    href="#ceni"
+                    href="/uslugi/masazhi/miofastsialen-masazh"
+                    data-service="Миофасциален масаж"
                   >
                     <div
                       className="elementor-element elementor-element-9a32321 e-con-full vamtam-has-theme-cp vamtam-cp-top e-flex e-con e-child"
@@ -265,7 +273,7 @@ export default function ServicesGridSection() {
                       >
                         <h5 className="elementor-heading-title elementor-size-default">Миофасциален масаж</h5>
                       </div>
-                      <div className="vamtam-has-theme-widget-styles elementor-element elementor-element-43091af elementor-widget elementor-widget-text-editor" data-id="43091af" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">{"\n\t\t\t\t\t\t\t\t\tПовлиява съединителната тъкан и мускулатурата в дълбочина. От 65 €.\t\t\t\t\t\t\t\t"}</div>
+                      <div className="vamtam-has-theme-widget-styles elementor-element elementor-element-43091af elementor-widget elementor-widget-text-editor" data-id="43091af" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">{"\n\t\t\t\t\t\t\t\t\tОсвобождава напрежение в мускулната фасция и подобрява подвижността чрез продължителен натиск и разтягане. От 65 €.\t\t\t\t\t\t\t\t"}</div>
                     </div>
                   </a>
                 </div>

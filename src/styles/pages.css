@@ -1,0 +1,957 @@
+/* ==========================================================================
+   1. Плавни размери на заглавията
+
+   Темата задава фиксирани размери, които скачат само на 3 ширини
+   (80px → 60px → 35px за заглавието върху видеото). Така на лаптоп с нисък
+   екран заглавието влизаше под менюто, а на таблет беше огромно. Тук
+   размерът расте плавно с ширината на екрана, а за видеото зависи и от
+   височината му, за да се събира винаги в първия екран.
+   ========================================================================== */
+
+body.elementor-kit-5 {
+  --e-global-typography-1dc89f4-font-size: clamp(32px, min(4.7vw, 8.4vh), 76px);
+  --e-global-typography-1dc89f4-line-height: 1.06em;
+  --e-global-typography-vamtam_h1-font-size: clamp(30px, 2.6vw + 18px, 60px);
+  --e-global-typography-vamtam_h2-font-size: clamp(27px, 2vw + 17px, 48px);
+  --e-global-typography-vamtam_h3-font-size: clamp(23px, 1vw + 18px, 34px);
+  --e-global-typography-vamtam_h4-font-size: clamp(19px, 0.45vw + 17px, 24px);
+  --e-global-typography-vamtam_h5-font-size: clamp(16px, 0.35vw + 15px, 20px);
+}
+
+/* Текстът върху видеото не влиза под менюто, колкото и нисък да е екранът. */
+.elementor-17 .elementor-element.elementor-element-cde987c {
+  padding-top: calc(var(--anima-header-h) + 16px);
+}
+.elementor-17 .elementor-element.elementor-element-ffa8bbf .elementor-heading-title {
+  max-width: 17ch;
+  text-wrap: balance;
+}
+@media (max-width: 767px) {
+  .elementor-17 .elementor-element.elementor-element-ffa8bbf .elementor-heading-title { margin-inline: auto; }
+}
+
+/* ==========================================================================
+   2. Отделни страници (ваучери, блог)
+   ========================================================================== */
+
+.anima-page { padding-top: var(--anima-header-h); background: var(--anima-cream); }
+.anima-page > .anima-section:first-child { padding-top: clamp(32px, 5vw, 64px); }
+
+.anima-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 0 0 clamp(18px, 3vw, 28px);
+  color: var(--anima-muted);
+  font: 500 14px/1.5 'Manrope', system-ui, sans-serif;
+}
+.anima-crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  min-width: 40px;
+  color: var(--anima-wood-600);
+  text-decoration: none;
+}
+.anima-crumbs a:hover { text-decoration: underline; }
+.anima-crumbs [aria-current] { color: var(--anima-ink); }
+
+.anima-header__nav a.is-current { color: var(--anima-orange-600); }
+
+/* --- ваучер на началната страница --- */
+.anima-voucher-teaser { background: #fff; }
+.anima-voucher-teaser__card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 48px;
+  padding: clamp(24px, 4vw, 48px);
+  border-radius: 24px;
+  background: var(--anima-cream);
+  border: 1px solid rgba(51, 38, 28, 0.1);
+}
+.anima-voucher-teaser__text { flex: 1 1 460px; }
+.anima-voucher-teaser .anima-btn { flex: 0 0 auto; }
+@media (max-width: 560px) {
+  .anima-voucher-teaser .anima-btn { width: 100%; }
+}
+
+/* ==========================================================================
+   3. Блог (по примера на molekula.bg/blog)
+   ========================================================================== */
+
+.anima-blog { background: var(--anima-cream); }
+.anima-blog--more { background: #fff; }
+.anima-blog__head { max-width: 760px; }
+.anima-blog__tags { margin-bottom: clamp(22px, 3vw, 34px); }
+
+.anima-blog__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 24px);
+}
+.anima-blog__grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1100px) {
+  .anima-blog__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 820px) {
+  .anima-blog__grid,
+  .anima-blog__grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .anima-blog__grid,
+  .anima-blog__grid--3 { grid-template-columns: 1fr; }
+}
+.anima-blog__grid > li { display: flex; }
+
+.anima-post-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(194, 117, 54, 0.22);
+  border-radius: 26px;
+  background: #fffdf9;
+  color: var(--anima-ink);
+  text-decoration: none;
+  transition: transform 0.25s var(--anima-ease), box-shadow 0.25s var(--anima-ease), border-color 0.25s var(--anima-ease);
+}
+.anima-post-card:hover,
+.anima-post-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(194, 117, 54, 0.45);
+  box-shadow: 0 18px 40px rgba(51, 38, 28, 0.1);
+}
+.anima-post-card__media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  border-radius: 18px;
+  background: var(--anima-wood-100);
+}
+.anima-post-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--anima-ease);
+}
+.anima-post-card:hover .anima-post-card__media img { transform: scale(1.05); }
+.anima-post-card__arrow {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--anima-ink);
+  transition: background-color 0.25s var(--anima-ease), color 0.25s var(--anima-ease);
+}
+.anima-post-card:hover .anima-post-card__arrow { background: var(--anima-orange-cta); color: #fff; }
+
+.anima-post-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 10px;
+  padding: clamp(16px, 2vw, 22px) clamp(10px, 1.4vw, 16px) 12px;
+}
+.anima-post-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 0;
+  color: var(--anima-muted);
+  font: 500 14px/1.4 'Manrope', system-ui, sans-serif;
+}
+.anima-post-card__meta span {
+  color: var(--anima-wood-550);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 12px;
+  align-self: center;
+}
+.anima-post-card__title {
+  color: var(--anima-ink);
+  font: 400 clamp(20px, 1.2vw + 13px, 26px) / 1.2 'Ovo', Georgia, serif;
+}
+.anima-post-card__excerpt {
+  color: var(--anima-muted);
+  font: 400 15px/1.6 'Manrope', system-ui, sans-serif;
+}
+.anima-post-card__more {
+  margin-top: auto;
+  padding-top: 6px;
+  color: var(--anima-wood-600);
+  font: 700 14.5px/1.4 'Manrope', system-ui, sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.anima-blog__pager { display: flex; justify-content: center; gap: 8px; margin-top: 36px; }
+
+/* --- статия --- */
+.anima-article { background: var(--anima-cream); }
+.anima-article__wrap { max-width: 860px; }
+.anima-article__head .anima-section__title { margin-top: 10px; }
+.anima-article__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  margin: clamp(22px, 3vw, 34px) 0;
+  border-radius: 24px;
+}
+.anima-article__body {
+  color: var(--anima-ink);
+  font: 400 clamp(16px, 0.3vw + 15px, 17.5px) / 1.75 'Manrope', system-ui, sans-serif;
+}
+.anima-article__body p { margin: 0 0 16px; }
+.anima-article .anima-rich__h { font-size: clamp(22px, 1.2vw + 16px, 30px); margin-top: 30px; }
+.anima-article .anima-rich__list li,
+.anima-article .anima-rich__ol li { font-size: inherit; }
+.anima-article__cta {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  margin-top: 36px;
+  padding: clamp(22px, 4vw, 36px);
+  border-radius: 20px;
+  background: #fff;
+  text-align: center;
+}
+.anima-article__cta > p {
+  margin: 0;
+  color: var(--anima-orange-600);
+  font: 400 clamp(21px, 1.4vw + 14px, 28px) / 1.3 'Ovo', Georgia, serif;
+}
+.anima-article__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+@media (max-width: 520px) {
+  .anima-article__actions .anima-btn { width: 100%; }
+}
+
+.anima-notfound .anima-btn { margin-top: 24px; }
+
+/* ==========================================================================
+   4. Събития, Екип, Контакти
+   ========================================================================== */
+
+/* --- събития --- */
+.anima-event {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(24px, 5vw, 64px);
+  padding: clamp(14px, 2vw, 22px);
+  border-radius: 28px;
+  background: #fff;
+  border: 1px solid rgba(51, 38, 28, 0.1);
+}
+.anima-event__media { overflow: hidden; border-radius: 20px; aspect-ratio: 16 / 10; }
+.anima-event__media img { width: 100%; height: 100%; object-fit: cover; }
+.anima-event__body { padding: clamp(4px, 2vw, 20px); }
+.anima-events .anima-event__body h2 {
+  margin: 0 0 14px;
+  color: var(--anima-ink);
+  font: 400 clamp(26px, 1.8vw + 16px, 40px) / 1.15 'Ovo', Georgia, serif;
+}
+.anima-event__body p {
+  margin: 0 0 24px;
+  color: var(--anima-muted);
+  font: 400 clamp(15.5px, 0.3vw + 14.5px, 17px) / 1.7 'Manrope', system-ui, sans-serif;
+}
+@media (max-width: 860px) {
+  .anima-event { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .anima-event .anima-btn { width: 100%; }
+}
+
+/* --- екип --- */
+.anima-team-page .anima-team__intro { margin-top: 18px; }
+.anima-team__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  justify-content: center;
+  gap: clamp(20px, 3vw, 36px);
+}
+.anima-team__grid--1 { grid-template-columns: minmax(0, 380px); }
+.anima-team__grid--2 { grid-template-columns: repeat(2, minmax(0, 360px)); }
+.anima-team__grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 820px) {
+  .anima-team__grid--2,
+  .anima-team__grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .anima-team__grid--1,
+  .anima-team__grid--2,
+  .anima-team__grid--3 { grid-template-columns: 1fr; }
+}
+.anima-member { text-align: center; }
+.anima-member__photo {
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  margin-bottom: 18px;
+  border-radius: 24px;
+  box-shadow: 0 20px 44px rgba(51, 38, 28, 0.14);
+}
+.anima-member__photo picture { display: block; height: 100%; }
+.anima-member__photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.anima-team-page .anima-member__name {
+  margin: 0;
+  color: var(--anima-ink);
+  font: 400 clamp(24px, 1vw + 18px, 30px) / 1.2 'Ovo', Georgia, serif;
+}
+.anima-team-page .anima-member__role {
+  margin: 6px 0 0;
+  color: var(--anima-wood-550);
+  font: 600 15px/1.5 'Manrope', system-ui, sans-serif;
+}
+
+/* --- контакти --- */
+.anima-contacts__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(16px, 2.4vw, 32px);
+  align-items: stretch;
+}
+.anima-contacts__card {
+  padding: clamp(22px, 3vw, 36px);
+  border-radius: 24px;
+  background: #fff;
+  border: 1px solid rgba(51, 38, 28, 0.1);
+}
+.anima-contacts .anima-contacts__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.anima-contacts__list li { display: flex; gap: 14px; align-items: flex-start; }
+.anima-contacts__list li > svg {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin-top: 20px;
+  color: var(--anima-orange);
+}
+.anima-contacts__list div { display: flex; flex-direction: column; }
+.anima-contacts__label {
+  color: var(--anima-wood-550);
+  font: 600 12.5px/1.4 'Manrope', system-ui, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.anima-contacts .anima-contacts__list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  color: var(--anima-ink);
+  font: 600 clamp(16.5px, 0.4vw + 15px, 19px) / 1.35 'Manrope', system-ui, sans-serif;
+  text-decoration: none;
+}
+.anima-contacts .anima-contacts__list a:hover { color: var(--anima-orange-600); text-decoration: underline; }
+.anima-contacts__muted { color: var(--anima-muted); font: 400 14.5px/1.5 'Manrope', system-ui, sans-serif; }
+
+.anima-contacts__hours {
+  margin-top: 24px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: var(--anima-cream);
+}
+.anima-contacts .anima-contacts__hours h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  color: var(--anima-ink);
+  font: 400 21px/1.3 'Ovo', Georgia, serif;
+}
+.anima-contacts__hours h2 svg { width: 20px; height: 20px; color: var(--anima-orange); }
+.anima-contacts__hours dl { margin: 0; display: grid; gap: 6px; }
+.anima-contacts__hours dl div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  font: 400 15.5px/1.5 'Manrope', system-ui, sans-serif;
+}
+.anima-contacts__hours dt { font-weight: 700; color: var(--anima-ink); }
+.anima-contacts__hours dd { margin: 0; color: var(--anima-muted); }
+.anima-contacts__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+
+.anima-contacts__map {
+  overflow: hidden;
+  min-height: 420px;
+  border-radius: 24px;
+  background: var(--anima-wood-100);
+}
+.anima-contacts__map iframe { display: block; width: 100%; height: 100%; min-height: 420px; border: 0; }
+@media (max-width: 900px) {
+  .anima-contacts__grid { grid-template-columns: 1fr; }
+  .anima-contacts__map,
+  .anima-contacts__map iframe { min-height: 320px; }
+}
+@media (max-width: 520px) {
+  .anima-contacts__actions .anima-btn { width: 100%; }
+}
+/* ==========================================================================
+   5. Услуги, страница на услуга, масажи
+   ========================================================================== */
+
+.anima-services-page .anima-section__head { max-width: 820px; }
+.anima-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 24px);
+}
+@media (max-width: 960px) { .anima-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .anima-cards { grid-template-columns: 1fr; } }
+.anima-cards > li { display: flex; }
+.anima-service-card .anima-post-card__media { aspect-ratio: 4 / 3; }
+
+/* --- страница на една услуга --- */
+.anima-category__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: start;
+}
+.anima-category__media {
+  position: sticky;
+  top: calc(var(--anima-header-h) + 20px);
+  overflow: hidden;
+  border-radius: 24px;
+  box-shadow: 0 20px 44px rgba(51, 38, 28, 0.14);
+}
+.anima-category__media img { display: block; width: 100%; height: auto; }
+.anima-category .anima-category__intro {
+  margin: 16px 0 0;
+  max-width: 62ch;
+  color: var(--anima-muted);
+  font: 400 clamp(16px, 0.3vw + 15px, 17.5px) / 1.7 'Manrope', system-ui, sans-serif;
+}
+.anima-category .anima-category__items { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 12px; }
+.anima-category__items li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid rgba(51, 38, 28, 0.1);
+}
+.anima-category__items li > div:first-child { flex: 1 1 260px; }
+.anima-category .anima-category__items h2 {
+  margin: 0;
+  color: var(--anima-ink);
+  font: 400 clamp(19px, 0.8vw + 15px, 23px) / 1.3 'Ovo', Georgia, serif;
+}
+.anima-category .anima-category__items p {
+  margin: 4px 0 0;
+  color: var(--anima-muted);
+  font: 400 14.5px/1.55 'Manrope', system-ui, sans-serif;
+}
+.anima-category__item-end { display: flex; align-items: center; gap: 14px; }
+.anima-category__item-end strong { color: var(--anima-wood-600); font: 700 19px/1 'Manrope', system-ui, sans-serif; white-space: nowrap; }
+.anima-category .anima-category__list {
+  margin: 24px 0 0;
+  padding: 18px 20px 18px 40px;
+  columns: 2;
+  column-gap: 32px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid rgba(51, 38, 28, 0.1);
+  color: var(--anima-ink);
+  font: 500 15.5px/1.5 'Manrope', system-ui, sans-serif;
+}
+.anima-category__list li { break-inside: avoid; padding: 5px 0; }
+.anima-category__list li::marker { color: var(--anima-orange); }
+.anima-category .anima-category__book { margin-top: 24px; }
+.anima-category .anima-category__others,
+.anima-massage-page ~ .anima-blog .anima-category__others {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.anima-category__others a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(91, 68, 50, 0.25);
+  background: #fff;
+  color: var(--anima-wood);
+  font: 600 15px/1.2 'Manrope', system-ui, sans-serif;
+  text-decoration: none;
+}
+.anima-category__others a:hover { border-color: var(--anima-wood); background: var(--anima-wood); color: #fff; }
+.anima-blog--more .anima-category__others { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+@media (max-width: 900px) {
+  .anima-category__grid { grid-template-columns: 1fr; }
+  .anima-category__media { position: static; max-width: 560px; }
+}
+@media (max-width: 560px) {
+  .anima-category .anima-category__list { columns: 1; }
+  .anima-category__item-end { width: 100%; justify-content: space-between; }
+  .anima-category .anima-category__book { width: 100%; }
+}
+
+/* --- масажи --- */
+.anima-massages__group + .anima-massages__group { margin-top: clamp(36px, 5vw, 56px); }
+.anima-massages .anima-massages__title {
+  margin: 0 0 18px;
+  color: var(--anima-ink);
+  font: 400 clamp(24px, 1.4vw + 16px, 34px) / 1.2 'Ovo', Georgia, serif;
+}
+.anima-massages__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 1.6vw, 20px);
+}
+@media (max-width: 1000px) { .anima-massages__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .anima-massages__grid { grid-template-columns: 1fr; } }
+.anima-massages__grid > li { display: flex; }
+.anima-massage-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: clamp(18px, 2vw, 24px);
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid rgba(51, 38, 28, 0.1);
+}
+.anima-massages .anima-massage-card h3 { margin: 0; font: 400 clamp(21px, 0.8vw + 16px, 25px) / 1.25 'Ovo', Georgia, serif; }
+.anima-massage-card h3 a { color: var(--anima-ink); text-decoration: none; }
+.anima-massage-card h3 a:hover { color: var(--anima-orange-600); }
+.anima-massages .anima-massage-card > p { margin: 0; color: var(--anima-muted); font: 400 15px/1.6 'Manrope', system-ui, sans-serif; }
+.anima-massage-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+/* цените и ромбчетата извън прозореца (на страниците) */
+.anima-page .anima-detail__prices {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+.anima-page .anima-article__head .anima-detail__prices { margin-top: 18px; }
+.anima-page .anima-detail__prices li { background: var(--anima-cream); }
+.anima-article .anima-detail__prices li { background: #fff; }
+.anima-page .anima-detail__facts {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  margin: 26px 0 0;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: var(--anima-wood-100);
+  color: var(--anima-ink);
+  font: 400 15.5px/1.55 'Manrope', system-ui, sans-serif;
+}
+.anima-page .anima-detail__facts li { display: flex; gap: 10px; }
+.anima-page .anima-article__cta .anima-detail__cta-text { color: var(--anima-muted); font: 400 15px/1.6 'Manrope', system-ui, sans-serif; }
+
+/* --- снимката на входа в Контакти --- */
+.anima-contacts__welcome { margin: 0 0 clamp(18px, 2.6vw, 32px); }
+.anima-contacts__welcome img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 560px;
+  object-fit: cover;
+  border-radius: 24px;
+}
+.anima-contacts__welcome figcaption {
+  margin-top: 10px;
+  color: var(--anima-muted);
+  font: italic 400 16px/1.5 'Ovo', Georgia, serif;
+  text-align: center;
+}
+/* зона за пръст на страницата с масажите */
+.anima-massage-card h3 a { display: inline-flex; align-items: center; min-height: 44px; }
+.anima-massages .anima-price__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--anima-wood-600);
+  font: 600 14.5px/1.3 'Manrope', system-ui, sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.anima-massages .anima-price__more:hover { color: var(--anima-orange-600); }
+/* ==========================================================================
+   6. Хедър (подстраници), записване, карта, снимки на масажите
+   ========================================================================== */
+
+/* На подстраниците хедърът е плътен от самото начало (горен ред 66 + меню 46). */
+@media (min-width: 1025px) {
+  .anima-page { padding-top: 112px; }
+}
+
+.anima-drawer__slogan {
+  margin: 0 0 4px;
+  color: var(--anima-wood);
+  font: italic 400 17px/1.45 'Ovo', Georgia, serif;
+}
+
+/* --- „Запази час“ до всеки ред в ценоразписа --- */
+.anima-price__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  margin-top: 8px;
+}
+.anima-prices .anima-price .anima-price__more { margin-top: 0; }
+.anima-prices .anima-price button.anima-price__book {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1.5px solid rgba(168, 100, 31, 0.45);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--anima-orange-600);
+  font: 600 14px/1 'Manrope', system-ui, sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s var(--anima-ease), color 0.2s var(--anima-ease), border-color 0.2s var(--anima-ease);
+}
+.anima-prices .anima-price button.anima-price__book:is(:hover, :focus-visible) {
+  background: var(--anima-orange-cta);
+  border-color: var(--anima-orange-cta);
+  color: #fff;
+}
+
+/* --- екипът на началната: едно изречение и връзка --- */
+.anima-team__head .anima-team__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  margin-top: 6px;
+  color: var(--anima-wood-600);
+  font: 600 15px/1.3 'Manrope', system-ui, sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* --- снимките на масажите --- */
+.anima-massage-card__media {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+  background: var(--anima-wood-100);
+}
+.anima-massage-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--anima-ease);
+}
+.anima-massage-card:hover .anima-massage-card__media img { transform: scale(1.05); }
+.anima-article__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  margin: clamp(20px, 3vw, 30px) 0;
+  border-radius: 24px;
+}
+.anima-modal .anima-detail__photo {
+  display: block;
+  margin: calc(-1 * clamp(22px, 4vw, 34px)) calc(-1 * clamp(22px, 4vw, 34px)) 22px;
+}
+.anima-modal .anima-detail__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   Google Maps с картичка „Анима център“ (снимка на входа + упътване)
+   ========================================================================== */
+
+.anima-gmap {
+  position: relative;
+  overflow: hidden;
+  height: clamp(380px, 34vw, 480px);
+  background: #e8e2d6;
+}
+.anima-gmap--contacts { height: 100%; min-height: 460px; }
+.anima-contacts__map { position: relative; }
+.anima-gmap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Картичката стои под маркера (той е в средата на картата) и сочи към него. */
+.anima-gmap__card {
+  position: absolute;
+  z-index: 2;
+  top: calc(50% + 12px);
+  left: 50%;
+  display: flex;
+  align-items: stretch;
+  width: min(360px, calc(100% - 24px));
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(30, 23, 17, 0.28);
+  transform: translateX(-50%);
+  animation: anima-gmap-in 0.35s var(--anima-ease) both;
+}
+@keyframes anima-gmap-in { from { opacity: 0; transform: translate(-50%, 8px); } }
+@media (prefers-reduced-motion: reduce) { .anima-gmap__card { animation: none; } }
+.anima-gmap__tip {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin-left: -8px;
+  border-radius: 3px;
+  background: #fff;
+  transform: rotate(45deg);
+}
+.anima-gmap__card > img {
+  position: relative;
+  flex: 0 0 104px;
+  width: 104px;
+  height: auto;
+  min-height: 104px;
+  object-fit: cover;
+  border-radius: 16px 0 0 16px;
+}
+.anima-gmap__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 12px 14px;
+}
+.anima-gmap__body strong { color: var(--anima-ink); font: 400 19px/1.2 'Ovo', Georgia, serif; }
+.anima-gmap__body > span { color: var(--anima-muted); font: 500 13.5px/1.4 'Manrope', system-ui, sans-serif; }
+.anima-gmap__actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.anima-gmap .anima-gmap__actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 13px;
+  border-radius: 999px;
+  font: 700 13.5px/1 'Manrope', system-ui, sans-serif;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.anima-gmap .anima-gmap__actions a.anima-gmap__go:is(:link, :visited, :hover, :focus-visible) {
+  background: var(--anima-orange-cta);
+  color: #fff;
+}
+.anima-gmap .anima-gmap__actions a.anima-gmap__go:hover { background: var(--anima-orange-600); }
+.anima-gmap .anima-gmap__actions a.anima-gmap__open:is(:link, :visited, :hover, :focus-visible) {
+  border: 1.5px solid rgba(91, 68, 50, 0.3);
+  color: var(--anima-wood);
+}
+.anima-gmap .anima-gmap__actions a.anima-gmap__open:hover { border-color: var(--anima-wood); }
+
+@media (pointer: coarse) {
+  .anima-gmap .anima-gmap__actions a { min-height: 44px; }
+}
+@media (max-width: 380px) {
+  .anima-gmap__card > img { flex-basis: 84px; width: 84px; }
+  .anima-gmap .anima-gmap__actions a { padding: 0 11px; }
+}
+
+/* На телефон: само „Упъти ме“ (Google вече има „Отваряне в Карти“ горе вляво). */
+@media (max-width: 480px) {
+  .anima-gmap .anima-gmap__actions a.anima-gmap__open { display: none; }
+  .anima-gmap .anima-gmap__actions a.anima-gmap__go { padding: 0 20px; }
+}
+/* ==========================================================================
+   Ваучери: подаръчна карта, „Как работи“, преглед на живо
+   ========================================================================== */
+
+.anima-vouchers__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 72px);
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+.anima-vouchers__hero .anima-section__head { margin-bottom: 0; }
+.anima-vouchers .anima-vouchers__cta { margin-top: 22px; }
+
+.anima-giftcards {
+  position: relative;
+  aspect-ratio: 400 / 330;
+  width: 100%;
+  max-width: 520px;
+  justify-self: center;
+}
+.anima-giftcard { display: block; width: 100%; height: auto; }
+.anima-giftcards .anima-giftcard {
+  position: absolute;
+  width: 84%;
+  border-radius: 22px;
+  filter: drop-shadow(0 22px 34px rgba(51, 38, 28, 0.22));
+}
+.anima-giftcards__back { top: 0; right: 0; transform: rotate(7deg); }
+.anima-giftcards__front { bottom: 0; left: 0; transform: rotate(-4deg); }
+
+.anima-vouchers .anima-vouchers__how {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 1.6vw, 20px);
+  max-width: 1180px;
+  margin: 0 auto clamp(32px, 4vw, 48px);
+  padding: 0;
+}
+.anima-vouchers__how li {
+  position: relative;
+  padding: 22px 22px 22px 70px;
+  border-radius: 18px;
+  background: var(--anima-cream);
+  border: 1px solid rgba(51, 38, 28, 0.08);
+}
+.anima-vouchers__how span {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--anima-orange-cta);
+  color: #fff;
+  font: 700 15px/1 'Manrope', system-ui, sans-serif;
+}
+.anima-vouchers__how strong { display: block; color: var(--anima-ink); font: 400 20px/1.25 'Ovo', Georgia, serif; }
+.anima-vouchers .anima-vouchers__how p { margin: 4px 0 0; color: var(--anima-muted); font: 400 14.5px/1.55 'Manrope', system-ui, sans-serif; }
+
+.anima-voucher__preview {
+  position: relative;
+  clear: both;
+  max-width: 380px;
+  margin: 0 auto 18px;
+}
+.anima-voucher__preview .anima-giftcard { filter: drop-shadow(0 14px 26px rgba(51, 38, 28, 0.18)); }
+.anima-voucher__more {
+  position: absolute;
+  right: -6px;
+  top: -8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--anima-wood);
+  color: #fff;
+  font: 700 13px/1 'Manrope', system-ui, sans-serif;
+}
+.anima-vouchers .anima-voucher__paynote {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--anima-wood-100);
+  color: var(--anima-ink);
+  font: 500 14.5px/1.55 'Manrope', system-ui, sans-serif;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .anima-vouchers__hero { grid-template-columns: 1fr; }
+  .anima-giftcards { order: -1; max-width: 420px; }
+  .anima-vouchers .anima-vouchers__how { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .anima-vouchers .anima-vouchers__cta { width: 100%; }
+}
+
+/* Темата прави всички svg в секциите 20x20 (иконите); картите са изключение. */
+.anima-vouchers svg.anima-giftcard { width: 100%; height: auto; }
+.anima-vouchers .anima-giftcards svg.anima-giftcard { width: 84%; }
+/* Снимката в прозореца на масажа: по-висока (16:10), за да се вижда повече. */
+.anima-modal .anima-detail__photo img { aspect-ratio: 16 / 10; }
+/* Бутонът × стои върху снимката – бял кръг, за да се вижда винаги. */
+.anima-modal.anima-detail .anima-modal__close {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 4px 14px rgba(30, 23, 17, 0.25);
+  color: var(--anima-ink);
+}
+.anima-modal.anima-detail .anima-modal__close:hover { background: var(--anima-wood); color: #fff; }
+
+/* Галерията на телефон: снимката от край до край на екрана. */
+@media (max-width: 600px) {
+  .anima-modal.anima-lightbox { padding: 0; }
+  .anima-modal.anima-lightbox .anima-lightbox__figure img { width: 100vw; max-width: 100vw; max-height: 78svh; object-fit: contain; border-radius: 0; }
+  .anima-modal.anima-lightbox .anima-lightbox__inner { gap: 16px; }
+  .anima-modal.anima-lightbox .anima-lightbox__figure figcaption { padding: 0 16px; }
+  .anima-modal.anima-lightbox .anima-lightbox__nav--prev { margin-left: 16px; }
+  .anima-modal.anima-lightbox .anima-lightbox__nav--next { margin-right: 16px; }
+}
+/* ==========================================================================
+   Прозорецът „Запази час“: два бутона – онлайн резервация и обаждане
+   ========================================================================== */
+
+.anima-modal.anima-book .anima-modal__panel { width: min(460px, 100%); }
+.anima-book__simple .anima-book__head { padding-right: 48px; }
+.anima-modal .anima-book__simple .anima-book__head h2 { font-size: clamp(26px, 3.6vw, 32px); }
+.anima-book__simple .anima-book__choices { margin-top: 20px; gap: 12px; }
+.anima-modal .anima-book__simple .anima-book__card { min-height: 76px; padding: 16px 18px; }
+.anima-modal .anima-book__simple button.anima-book__card { font: inherit; }
+.anima-modal .anima-book__soon {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--anima-wood-100);
+  color: var(--anima-ink);
+  font: 500 14.5px/1.5 'Manrope', system-ui, sans-serif;
+}
+.anima-modal .anima-book__hours {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 18px 0 0;
+  color: var(--anima-muted);
+  font: 500 14px/1.4 'Manrope', system-ui, sans-serif;
+}
+.anima-modal .anima-book__hours svg { width: 16px; height: 16px; color: var(--anima-wood-550); }

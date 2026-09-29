@@ -19,7 +19,10 @@ export default function BookingCtaSection() {
     >
       <div className="e-con-inner">
         <div className="elementor-background-video-container">
-          <video className="elementor-background-video-hosted" role="presentation" autoPlay={true} muted={true} playsInline={true} loop={true} />
+          {/* Без autoplay и с preload="none": това е същото видео като в хероя
+              и не бива да се тегли втори път при отваряне на страницата.
+              pauseOffscreenMedia го пуска, когато секцията влезе в екрана. */}
+          <video className="elementor-background-video-hosted" role="presentation" preload="none" muted={true} playsInline={true} loop={true} />
         </div>
         <div
           className="elementor-element elementor-element-2a883ae e-con-full e-flex e-con e-child"

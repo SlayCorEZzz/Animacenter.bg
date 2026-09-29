@@ -9,6 +9,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
+import { slugify } from '../src/lib/slug.js';
 
 const SRC = 'public/images';
 const OUT = 'public/media';
@@ -38,7 +39,8 @@ const JOBS = [
 
   // --- people ---
   // Оригиналният портрет на д-р Цолова (public/images/therapist-original.jpg).
-  { name: 'therapist', src: path.join(SRC, 'therapist-original.jpg'), ratio: 3 / 4, widths: [1000, 700, 500], focus: 0.42 },
+  // Пълният размер на оригинала (1170) за компютър/ретина, 800 и 560 за по-малки екрани.
+  { name: 'therapist', src: path.join(SRC, 'therapist-original.jpg'), ratio: 3 / 4, widths: [1170, 800, 560], focus: 0.42 },
 
   // --- offers ---
   // Оригиналът за офис масажа (public/images/office-massage-original.png) е широк
@@ -46,6 +48,59 @@ const JOBS = [
   // а не празната стена отдясно.
   { name: 'office-massage', src: path.join(SRC, 'office-massage-original.png'), crop: { left: 0, top: 0, width: 1235, height: 926 }, ratio: 4 / 3, widths: [1000, 700] },
   { name: 'massage-closeup', src: f('37-324'), crop: { left: 110, top: 712, width: 1000, height: 562 }, ratio: 16 / 9, widths: [1400, 700] },
+
+  // --- новите снимки на центъра (2026-10), оригиналите са в source-photos/ ---
+  // Пазят естественото си съотношение; галерията ги реже с CSS.
+  ...[
+    ['vhod', 4 / 3],
+    ['vhod-2', 3 / 4],
+    ['recepcia', 4 / 3],
+    ['kafe', 4 / 3],
+    ['kabinet-1', 4 / 3],
+    ['kabinet-2', 3 / 4],
+    ['kabinet-3', 3 / 4],
+    ['kabinet-kozmetika', 3 / 4],
+    ['funkcionalen-kabinet', 3 / 4],
+    ['manikyur', 3 / 4],
+    ['zona-sabitia', 4 / 3],
+    ['koridor', 3 / 4],
+    ['stalbishte-predi', 3 / 4],
+    ['stalbishte-sled', 3 / 4],
+  ].map(([name, ratio]) => ({
+    name,
+    src: path.join('source-photos', `${name}.jpg`),
+    ratio,
+    widths: ratio > 1 ? [1200, 600] : [900, 600],
+  })),
+
+  // --- снимка за всеки масаж (картите и страниците): /media/m-<slug> ---
+  // Четирите масажа от картите на началната страница ползват СЪЩАТА снимка
+  // като картата, за да не се отваря друга снимка при клик.
+  ...[
+    ['Класически масаж', 'wp:GettyImages-2222455931.jpg', 0.42], // като картата
+    ['Дълбокотъканен масаж', 'wp:GettyImages-200112735-001.jpg', 0.42],
+    ['Лечебен масаж', 'wp:GettyImages-2210243626.jpg', 0.5], // като картата
+    ['Антицелулитен масаж', 'wp:GettyImages-554598667.jpg', 0.5],
+    ['Релаксиращ масаж', 'wp:GettyImages-2222455863.jpg', 0.5], // като картата
+    ['Силов масаж', 'wp:GettyImages-1357320863-1.jpg', 0.42],
+    ['Миофасциален масаж', 'wp:pexels-arina-krasnikova-6663372.jpg', 0.38], // като картата
+    ['Масаж с етерични масла', 'wp:Flexora-2-cover.jpg', 0.5],
+    ['Масаж с масажна свещ', 'source-photos/kabinet-3.jpg', 0.55],
+    ['Частичен масаж', 'public/wp-content/uploads/2025/10/pexels.com_video_woman-doing-a-back-massage-6628400-cover14.jpg', 0.5],
+    ['Сегментарен масаж', 'public/media/massage-closeup.jpg', 0.5],
+    ['Масаж на лице и скалп', 'wp:GettyImages-489204244.jpg', 0.4],
+    ['Рефлексотерапия', 'source-photos/kabinet-2.jpg', 0.62],
+    ['Възстановителен масаж', 'wp:GettyImages-1322320699-1.jpg', 0.9],
+    ['Масаж за бременни', 'wp:GettyImages-1315518121-1.jpg', 0.5],
+    ['Лимфен дренаж', 'source-photos/kabinet-1.jpg', 0.55],
+    ['Детски масаж', 'source-photos/funkcionalen-kabinet.jpg', 0.6],
+  ].map(([massage, file, focus]) => ({
+    name: `m-${slugify(massage)}`,
+    src: file.startsWith('wp:') ? path.join('public/wp-content/uploads/2025/09', file.slice(3)) : file,
+    ratio: 4 / 3,
+    widths: [900, 600],
+    focus,
+  })),
 ];
 
 const only = process.argv.slice(2).filter((a) => !a.startsWith('-'));

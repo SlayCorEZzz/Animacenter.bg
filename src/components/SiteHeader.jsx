@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { brand, contacts, nav } from '../content/site.js';
 import { lockScroll, unlockScroll } from '../lib/scrollLock.js';
+import { currentPath, isCurrent, pageHref } from '../lib/pages.js';
 import { IconClose, IconFacebook, IconInstagram, IconMail, IconMenu, IconPhone, IconPin } from './Icons.jsx';
 
 /**
@@ -10,9 +11,10 @@ import { IconClose, IconFacebook, IconInstagram, IconMail, IconMenu, IconPhone, 
  * хероя се получава с CSS филтър. По-рано тук стояха две снимки една върху
  * друга и при превключването се получаваше трепване.
  */
-export default function SiteHeader() {
+export default function SiteHeader({ solid = false }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const here = currentPath();
   const [showBar, setShowBar] = useState(false);
   const burgerRef = useRef(null);
   const closeRef = useRef(null);
@@ -78,7 +80,10 @@ export default function SiteHeader() {
   }, []);
 
   const goTo = useCallback((e, href) => {
-    if (!href.startsWith('#')) return;
+    if (!href.startsWith('#')) {
+      setOpen(false);
+      return;
+    }
     const target = href === '#top' ? document.body : document.querySelector(href);
     if (!target) return;
     e.preventDefault();
@@ -93,42 +98,30 @@ export default function SiteHeader() {
 
   return (
     <>
-      <header className={`anima-header${scrolled ? ' is-solid' : ''}${open ? ' is-open' : ''}`}>
+      <header className={`anima-header${scrolled || solid ? ' is-solid' : ''}${open ? ' is-open' : ''}`}>
+        {/* Горен ред: вляво надписът, в средата логото (води към началото),
+            вдясно телефонът. */}
         <div className="anima-header__inner">
+          <div className="anima-header__left">
+            <p className="anima-header__slogan">
+              <span>Тялото знае пътя.</span> <span>Ние само му помагаме да го намери.</span>
+            </p>
+          </div>
+
           <a
             className="anima-header__logo"
-            href="#top"
-            onClick={(e) => goTo(e, '#top')}
+            href={pageHref('#top')}
+            onClick={(e) => goTo(e, pageHref('#top'))}
             aria-label={`${brand.name}, начало`}
           >
-            <img src={brand.logo} alt={brand.name} width="5034" height="2687" />
+            <img src={brand.logo} alt={brand.name} width="2443" height="1281" />
           </a>
-
-          <nav className="anima-header__nav" aria-label="Основна навигация">
-            {nav.map((item) => (
-              <a key={item.href} href={item.href} onClick={(e) => goTo(e, item.href)}>
-                {item.label}
-              </a>
-            ))}
-          </nav>
 
           <div className="anima-header__actions">
             <a className="anima-header__phone" href={contacts.phoneHref}>
               <IconPhone />
               <span>{contacts.phone}</span>
             </a>
-            <button type="button" className="anima-btn anima-btn--accent anima-header__cta" data-book>
-              Запази час
-            </button>
-
-            <button
-              type="button"
-              className="anima-header__icon-btn anima-header__icon-btn--call"
-              aria-label="Запази час"
-              data-book
-            >
-              <IconPhone />
-            </button>
             <button
               ref={burgerRef}
               type="button"
@@ -142,6 +135,21 @@ export default function SiteHeader() {
             </button>
           </div>
         </div>
+
+        {/* Менюто под логото: Услуги · Ценоразпис · Събития · Ваучери · Блог · Екип · Контакти */}
+        <nav className="anima-header__nav" aria-label="Основна навигация">
+          {nav.map((item) => (
+            <a
+              key={item.href}
+              href={pageHref(item.href)}
+              className={isCurrent(item.href, here) ? 'is-current' : undefined}
+              aria-current={isCurrent(item.href, here) ? 'page' : undefined}
+              onClick={(e) => goTo(e, pageHref(item.href))}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
       </header>
 
       {/* --- мобилно чекмедже --- */}
@@ -163,7 +171,7 @@ export default function SiteHeader() {
 
         <div className="anima-drawer__panel">
           <div className="anima-drawer__head">
-            <img src={brand.logo} alt={brand.name} className="anima-drawer__logo" width="5034" height="2687" />
+            <img src={brand.logo} alt={brand.name} className="anima-drawer__logo" width="2443" height="1281" />
             <button
               ref={closeRef}
               type="button"
@@ -175,9 +183,17 @@ export default function SiteHeader() {
             </button>
           </div>
 
+          <p className="anima-drawer__slogan">{brand.slogan}</p>
+
           <nav className="anima-drawer__nav" aria-label="Мобилна навигация">
             {nav.map((item, i) => (
-              <a key={item.href} href={item.href} style={{ '--i': i }} onClick={(e) => goTo(e, item.href)}>
+              <a
+                key={item.href}
+                href={pageHref(item.href)}
+                style={{ '--i': i }}
+                aria-current={isCurrent(item.href, here) ? 'page' : undefined}
+                onClick={(e) => goTo(e, pageHref(item.href))}
+              >
                 <span>{item.label}</span>
                 <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18">
                   <path
@@ -229,10 +245,10 @@ export default function SiteHeader() {
       <div className={`anima-callbar${showBar && !open ? ' is-visible' : ''}`} aria-hidden={!showBar || open}>
         <a
           className="anima-callbar__map"
-          href={contacts.mapsLink}
+          href={contacts.directionsLink}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Как да стигна"
+          aria-label="Упъти ме до Анима"
           tabIndex={showBar && !open ? 0 : -1}
         >
           <IconPin />

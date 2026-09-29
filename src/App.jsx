@@ -1,4 +1,6 @@
 import { BookingProvider } from './components/BookingModal.jsx';
+import { ServiceDetailProvider } from './components/ServiceDetailModal.jsx';
+import VoucherTeaserSection from './components/sections/VoucherTeaserSection.jsx';
 import SiteHeader from './components/SiteHeader.jsx';
 import HeroSection from './components/sections/HeroSection.jsx';
 import TherapistsIntroSection from './components/sections/TherapistsIntroSection.jsx';
@@ -17,6 +19,7 @@ import ScrollToTop from './components/ScrollToTop.jsx';
 export default function App() {
   return (
     <BookingProvider>
+      <ServiceDetailProvider>
       <div id="top" />
       <SiteHeader />
       <div id="page" className="main-container">
@@ -39,6 +42,7 @@ export default function App() {
                     <MassageBenefitsSection />
                     <TherapistSection />
                     <PriceListSection />
+                    <VoucherTeaserSection />
                     <BookingCtaSection />
                     <GallerySection />
                     <OffersSection />
@@ -51,6 +55,7 @@ export default function App() {
         <SiteFooter />
       </div>
       <ScrollToTop />
+      </ServiceDetailProvider>
     </BookingProvider>
   );
 }
